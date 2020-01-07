@@ -19,6 +19,7 @@ Vue.config.productionTip = false
 // Vue.use(VueRouter)
 Vue.use(VueQrcodeReader);
 
+
 new Vue({
   // store,
   swal,

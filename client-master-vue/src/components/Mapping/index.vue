@@ -48,6 +48,50 @@
             </v-list-tile>
           </router-link></li>
           <v-divider></v-divider>
+          <li><router-link @click.native=" " to="/keterlambatan" >
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon>desktop_windows</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Laporan Keterlambatan</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link></li>
+          <v-divider></v-divider>
+          <li><router-link @click.native=" " to="/dispatchlist" >
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon>desktop_windows</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Dispatch List</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link></li>
+          <v-divider></v-divider>
+          <li><router-link @click.native=" " to="/laporanio" >
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon>desktop_windows</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Laporan I/O</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link></li>
+          <v-divider></v-divider>
+          <li><router-link @click.native=" " to="/hasilproduksi" >
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon>desktop_windows</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Laporan Hasil Produksi</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link></li>
+          <v-divider></v-divider>
           <li><router-link @click.native=" " to="/logout" >
             <v-list-tile @click="">
               <v-list-tile-action>
