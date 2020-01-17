@@ -233,4 +233,20 @@ module.exports = {
             }
         })
     },
+    setQty(req,res){
+        var qty = req.body.qty
+        console.log(qty)
+
+        
+        // pool.query("UPDATE customers SET name=$2 , age=$3 WHERE id=$1",[id,name,age], function (error, result) {
+        // // done();
+        // if (error) {
+        //     console.log(error);
+        //     res.status(400).send(error);
+        // }
+        // else{
+        //     res.status(200).json(result.rows)        
+        // }
+        // })   
+    },
 };

@@ -430,38 +430,54 @@ export default {
       this.checkbox = null;
       this.$validator.reset();
     },
+    // async setQty() {
+    //   const response = await http.post("/setQty", 50)
+    //   console.log(response)
+    // },
     saveMappingRooting() {
-      var nomor_pd_str = this.mapping_rooting.nomor_pd.substr(0, 11);
-      var data = {
-        id_peti: this.mapping_rooting.id_peti,
-        nomor_pd: nomor_pd_str,
-        kode_mat: this.mapping_rooting.kode_mat,
-        desc_mat: this.mapping_rooting.desc_mat,
-        qty: this.mapping_rooting.qty
-      };
+      // var data = {
+      //   id_peti: this.mapping_rooting.id_peti,
+      //   nomor_pd: this.mapping_rooting.nomor_pd,
+      //   kode_mat: this.mapping_rooting.kode_mat,
+      //   desc_mat: this.mapping_rooting.desc_mat,
+      //   qty: this.mapping_rooting.qty
+      // };
 
+      // http
+      //   .post("/postMappingRooting", data)
+      //   .then(response => {
+      //     if (response.data == "sukses") {
+      //       console.log(response);
+      //       this.snackbar_sukses = true;
+      //       this.text_sukses = "Data Mapping Berhasil di Input.";
+      //       this.timeout_sukses = 3000;
+      //     } else {
+      //       this.snackbar_gagal = true;
+      //       this.text_gagal =
+      //         "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
+      //       this.timeout_gagal = 3000;
+      //     }
+      //   })
+      //   .catch(e => {
+      //     console.log(e);
+      //   });
+
+      // this.submitted = true;
+      // this.$refs.form.reset();
+      // // location.reload()
+      // const response = await http.put("/setQty", this.mapping_rooting.qty)
+      // console.log(response)
+      var data = {
+            qty: this.mapping_rooting.qty,
+          };
       http
-        .post("/postMappingRooting", data)
-        .then(response => {
-          if (response.data == "sukses") {
-            console.log(response);
-            this.snackbar_sukses = true;
-            this.text_sukses = "Data Mapping Berhasil di Input.";
-            this.timeout_sukses = 3000;
-          } else {
-            this.snackbar_gagal = true;
-            this.text_gagal =
-              "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
-            this.timeout_gagal = 3000;
-          }
+        .put("/setQty/", data)
+        .then(response => {          
+            console.log(response);          
         })
         .catch(e => {
           console.log(e);
         });
-
-      this.submitted = true;
-      this.$refs.form.reset();
-      // location.reload()
     },
     newMapping_rooting() {
       this.submitted = false;
@@ -472,7 +488,12 @@ export default {
       http.get("getNomorPdDetail/" + event.toString() + "").then(response => {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
-        this.mapping_rooting.qty = response.data[0].qty;
+        // this.mapping_rooting.qty = response.data[0].qty;
+        if (response.data[0].qty >= 50) {          
+          this.mapping_rooting.qty = 50
+        } else {
+          this.mapping_rooting.qty = response.data[0].qty
+        }
       });
     }
   }

@@ -12,7 +12,8 @@ const { getPeti,
         gantiPassword,
         postMappingRooting,
         postLogin,
-        postDelete
+        postDelete,
+        setQty
          } = require('../controller/')
 
 router.get('/getPeti',getPeti)
@@ -27,6 +28,7 @@ router.put('/gantiPassword', gantiPassword)
 router.post('/postMappingRooting',postMappingRooting)
 router.post('/postLogin',postLogin)
 router.post('/postDelete',postDelete)
+router.put('/setQty/',setQty)
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
