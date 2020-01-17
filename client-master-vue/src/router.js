@@ -1,5 +1,5 @@
-import VueRouter from "vue-router";
 import Vue from "vue";
+import VueRouter from "vue-router";
 import Mapping from "./components/Mapping";
 import Listdata from "./components/Listdata";
 import Editdata from "./components/Listdata/edit";
@@ -12,25 +12,153 @@ import Keterlambatan from "./components/Laporan/Keterlambatan";
 import DispatchList from "./components/Laporan/DispatchList";
 import LaporanIo from "./components/Laporan/LaporanIO";
 import HasilProduksi from "./components/Laporan/HasilProduksi";
+import error from "../src/components/404/404.vue";
+import Cookies from "js-cookie";
 
 Vue.use(VueRouter);
 
+//   },
+//   // { path: "/", component: Mapping },
+//   // { path: "/listdata", component: Listdata },
+//   // { path: "/listdata/edit/:id", component: Editdata },
+//   // { path: "/listdata/detail/:id", component: Detaildata },
+//   // { path: "/lepasdata", component: Lepasdata },
+//   // { path: "/Logout", component: Logout },
+//   // { path: "/profil", component: Profil },
+//   // { path: "/keterlambatan", component: Keterlambatan },
+//   // { path: "/dispatchlist", component: DispatchList },
+//   // { path: "/laporanio", component: LaporanIo },
+//   // { path: "/hasilproduksi", component: HasilProduksi },
+// {
+//   path: "*",
+//   name: "404",
+//   component: error
+// }
+// ];
+
 const routes = [
-  { path: "/", component: Mapping },
-  { path: "/listdata", component:  Listdata },
-  { path: "/listdata/edit/:id", component:  Editdata },
-  { path: "/listdata/detail/:id", component:  Detaildata },
-  { path: "/lepasdata", component:  Lepasdata },
-  { path: "/auth", component:  Auth },
-  { path: "/Logout", component:  Logout },
-  { path: "/profil", component:  Profil },
-  { path: "/keterlambatan", component:  Keterlambatan },
-  { path: "/dispatchlist", component:  DispatchList },
-  { path: "/laporanio", component:  LaporanIo },
-  { path: "/hasilproduksi", component:  HasilProduksi },
+  {
+    path: "/",
+    redirect: '/home'
+  },
+  {
+    path: "/home",
+    name: "home",
+    component: Mapping,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/auth",
+    name: "auth",
+    component: Auth
+  },
+  {
+    path: "/listdata",
+    name: "listdata",
+    component: Listdata,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/listdata/edit/:id",
+    name: "listdataEdit",
+    component: Editdata,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/listdata/detail/:id",
+    name: "listdataDetail",
+    component: Detaildata,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/lepasdata",
+    name: "lepasdata",
+    component: Lepasdata,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/profil",
+    name: "profil",
+    component: Profil,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/keterlambatan",
+    name: "keterlambatan",
+    component: Keterlambatan,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/dispatchlist",
+    name: "dispatchlist",
+    component: DispatchList,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/laporanio",
+    name: "laporanio",
+    component: LaporanIo,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/hasilproduksi",
+    name: "hasilproduksi",
+    component: HasilProduksi,    
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/Logout",
+    component: Logout
+  },
+  {
+    path: "*",
+    name: "404",
+    component: error
+  }
 ];
 
-export default new VueRouter({
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  const auth = Cookies.get("user");
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!auth) {
+      next({
+        path: "/auth",
+        // query: { redirect: to.fullPath }
+      });
+    } else {
+      next() 
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
+});
+
+
+
+export default router;

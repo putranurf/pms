@@ -236,10 +236,10 @@
     }),
 
     mounted () {
-      if(!localStorage.getItem('user')){
-        router.push('auth')
-      }             
-      this.nama_login_user = JSON.parse(localStorage.getItem("user")) 
+      // if(!localStorage.getItem('user')){
+      //   router.push('auth')
+      // }             
+      // this.nama_login_user = JSON.parse(localStorage.getItem("user")) 
       this.$validator.localize('en', this.dictionary)      
       http.get('/getUserDetail/'+this.nama_login_user.npp+'')
       .then(response => (this.npp          = response.data[0].npp,

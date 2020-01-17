@@ -283,10 +283,10 @@ import router from '../../router'
     }),
 
     mounted () {      
-      if(!localStorage.getItem('user')){
-        router.push('auth')
-      } 
-      this.nama_login_user = JSON.parse(localStorage.getItem("user"))
+      // if(!localStorage.getItem('user')){
+      //   router.push('auth')
+      // } 
+      // this.nama_login_user = JSON.parse(localStorage.getItem("user"))
       this.$refs.id_peti.focus();
       this.$validator.localize('en', this.dictionary)
       http

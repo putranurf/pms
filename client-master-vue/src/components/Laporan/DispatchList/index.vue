@@ -208,6 +208,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
+// import Cookies from "js-cookie"
 
 var nama_login = "";
 
@@ -288,10 +289,10 @@ export default {
   }),
 
   mounted() {
-    if (!localStorage.getItem("user")) {
-      router.push("auth");
-    }
-    this.nama_login_user = JSON.parse(localStorage.getItem("user"));
+    // if (!localStorage.getItem("user")) {
+    //   router.push("auth");
+    // }
+    // this.nama_login_user = JSON.parse(localStorage.getItem("user"));
     this.$validator.localize("en", this.dictionary);
     http.get("/getNomorPd").then(response => {
       this.data = response.data;

@@ -141,7 +141,7 @@
                 <v-card flat>
                   <v-card-text>
                     <v-card-title>
-                      Dispatch List
+                      Laporan Keterlambatan
                       <v-spacer></v-spacer>
                       <v-autocomplete
                         v-model="value"
@@ -151,26 +151,50 @@
                         label="Sub Departemen"
                       ></v-autocomplete>
                     </v-card-title>
-                    <!-- <h2 class="border-bottom pb-2 mb-4">
-                      PivotTable
-                      <small>(standalone)</small>
-                    </h2> -->
-
-                    <!-- <div class="mb-5"> -->
-                      <pivot-table
-                        :data="asyncData"
-                        :row-fields="rowFields"
-                        :col-fields="colFields"
-                        :reducer="reducer"
-                        :default-show-settings="defaultShowSettings"
-                        :is-data-loading="isDataLoading"
-                      >
-                        <template slot="value" slot-scope="{ value }">{{ value.toLocaleString() }}</template>
-                        <template slot="loading">
-                          <div class="text-center">Loading...</div>
+                    <v-data-table
+                      :headers="headers"
+                      :items="tableData.items"
+                      :loading="loading"
+                      :total-items="tableData.total"
+                      class="si-table not-action"
+                    >
+                      <template slot="headers" slot-scope="props">
+                        <template v-for="(headers, i) in [processTableHeaders(props.headers)]">
+                          <tr :key="i">
+                            <th
+                              v-for="header in headers.parents"
+                              :key="header.value"
+                              :rowspan="header.rowspan"
+                              :colspan="header.colspan"
+                              :width="header.width"
+                              :class="header.align ? `text-xs-${header.align}` : ''"
+                            >{{ header.text }}</th>
+                          </tr>
+                          <tr v-if="headers.children" :key="i + 'id'">
+                            <th
+                              v-for="header in headers.children"
+                              v-bind:key="header.value"
+                              :width="header.width"
+                              :class="header.align ? `text-xs-${header.align}` : ''"
+                            >{{ header.text }}</th>
+                          </tr>
                         </template>
-                      </pivot-table>
-                    <!-- </div> -->
+                      </template>
+                      <template slot="items" slot-scope="props">
+                        <td
+                          v-for="v in headers"
+                          v-if="!v.children"
+                          :key="v.value"
+                          :class="`text-xs-${v.align}`"
+                        >{{ v.format ? v.format(props.item[v.value]) : props.item[v.value] }}</td>
+                        <td
+                          v-else
+                          v-for="c in v.children"
+                          :key="c.value"
+                          :class="`text-xs-${c.align}`"
+                        >{{ c.format ? c.format(props.item[c.value]) : props.item[c.value] }}</td>
+                      </template>
+                    </v-data-table>
                   </v-card-text>
                 </v-card>
               </v-flex>
@@ -192,70 +216,15 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
-import PivotTable from "@marketconnect/vue-pivot-table";
 
 var nama_login = "";
 
-const data = [
-  { country: "United States", year: 2010, gender: "male", count: 153295220 },
-  { country: "United States", year: 2010, gender: "female", count: 156588400 },
-  { country: "United States", year: 2011, gender: "male", count: 154591960 },
-  { country: "United States", year: 2011, gender: "female", count: 157800200 },
-  { country: "United States", year: 2012, gender: "male", count: 155851840 },
-  { country: "United States", year: 2012, gender: "female", count: 158944800 },
-  { country: "China", year: 2010, gender: "male", count: 690256342 },
-  { country: "China", year: 2010, gender: "female", count: 650712406 },
-  { country: "China", year: 2011, gender: "male", count: 694106441 },
-  { country: "China", year: 2011, gender: "female", count: 654068030 },
-  { country: "China", year: 2012, gender: "male", count: 697964288 },
-  { country: "China", year: 2012, gender: "female", count: 657422649 },
-  { country: "India", year: 2010, gender: "male", count: 638354751 },
-  { country: "India", year: 2010, gender: "female", count: 592629727 },
-  { country: "India", year: 2011, gender: "male", count: 646873890 },
-  { country: "India", year: 2011, gender: "female", count: 600572093 },
-  { country: "India", year: 2012, gender: "male", count: 655193693 },
-  { country: "India", year: 2012, gender: "female", count: 608395922 },
-  { country: "France", year: 2010, gender: "male", count: 30675773 },
-  { country: "France", year: 2010, gender: "female", count: 32285363 },
-  { country: "France", year: 2011, gender: "male", count: 30815839 },
-  { country: "France", year: 2011, gender: "female", count: 32452566 },
-  { country: "France", year: 2012, gender: "male", count: 30948916 },
-  { country: "France", year: 2012, gender: "female", count: 32612882 }
-];
-
 export default {
-  components: { PivotTable },
   data: () => ({
-    data: data,
-    asyncData: [],
-    fields: [],
-    rowFields: [
-      {
-        getter: item => item.country,
-        label: "Country"
-      },
-      {
-        getter: item => item.gender,
-        label: "Gender"
-      }
-    ],
-    colFields: [
-      {
-        getter: item => item.year,
-        label: "Year"
-      }
-    ],
-    reducer: (sum, item) => sum + item.count,
-    defaultShowSettings: false,
-    isDataLoading: true,
+    dataKeterlambatan: ["foo", "bar", "fizz", "buzz"],
+    value: null,
     search: "",
     headers: [
-      {
-        text: "No. WC",
-        value: "no_wc",
-        sortable: false,
-        align: "center"
-      },
       {
         text: "No. PD",
         value: "no_pd",
@@ -263,26 +232,38 @@ export default {
         align: "center"
       },
       {
-        text: "Tanggal Mulai",
-        sortable: false,
-        align: "center",
-        value: "tanggal_mulai"
-      },
-      {
-        text: "Tanggal Selesai",
-        value: "tanggal_selesai",
+        text: "Komponen",
+        value: "komponen",
         sortable: false,
         align: "center"
       },
       {
-        text: "Durasi (Jam)",
-        value: "durasi",
+        text: "Tanggal Penyelsaian",
+        sortable: false,
+        children: [
+          {
+            text: "Semula",
+            value: "semula",
+            format: v => v && Number(v).toFixed(2),
+            align: "center"
+          },
+          {
+            text: "Revisi",
+            value: "revisi",
+            format: v => v && Number(v).toFixed(2),
+            align: "center"
+          }
+        ]
+      },
+      {
+        text: "Penyebab",
+        value: "penyebab",
         sortable: false,
         align: "center"
       },
       {
-        text: "Uraian",
-        value: "uraian",
+        text: "Tindakan",
+        value: "tindakan",
         sortable: false,
         align: "center"
       }
@@ -290,12 +271,12 @@ export default {
     tableData: {
       items: [
         {
-          no_wc: 1714481226758227561,
-          no_pd: "2018-02-14T09:55:10.70019+07:00",
-          tanggal_mulai: 25.699999999999999,
-          tanggal_selesai: "100",
-          uraian: 76,
-          durasi: 24.699999999999999
+          no_pd: 1714481226758227561,
+          komponen: "2018-02-14T09:55:10.70019+07:00",
+          semula: 25.699999999999999,
+          revisi: "100",
+          penyebab: 76,
+          tindakan: 24.699999999999999
         }
       ],
       total: 6
@@ -313,7 +294,7 @@ export default {
         text: "Home"
       },
       {
-        text: "Dispatch List"
+        text: "Laporan Keterlambatan"
       }
     ],
 
@@ -321,10 +302,10 @@ export default {
   }),
 
   mounted() {
-    // if (!localStorage.getItem("user")) {
-    //   router.push("auth");
-    // }
-    // this.nama_login_user = JSON.parse(localStorage.getItem("user"));
+    if (!localStorage.getItem("user")) {
+      router.push("auth");
+    }
+    this.nama_login_user = JSON.parse(localStorage.getItem("user"));
     this.$validator.localize("en", this.dictionary);
     http.get("/getNomorPd").then(response => {
       this.data = response.data;
@@ -375,13 +356,6 @@ export default {
         this.mapping_rooting.qty = response.data[0].qty;
       });
     }
-  },
-  created: function() {
-    this.isDataLoading = true;
-    setTimeout(() => {
-      this.asyncData = data;
-      this.isDataLoading = false;
-    }, 1000);
   }
 };
 </script>

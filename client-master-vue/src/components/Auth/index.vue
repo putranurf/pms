@@ -16,14 +16,14 @@
                   </template>
                   <span>Source</span>
                 </v-tooltip> -->
-                <v-tooltip right>
+                <!-- <v-tooltip right>
                   <template v-slot:activator="{ on }">
                     <v-btn icon large href="https://codepen.io/johnjleider/pen/wyYVVj" target="_blank" v-on="on">
                       <v-icon large>mdi-codepen</v-icon>
                     </v-btn>
                   </template>
                   <span>Codepen</span>
-                </v-tooltip>
+                </v-tooltip> -->
               </v-toolbar>
               <v-card-text>
                 <v-form>
@@ -56,6 +56,7 @@
 <script>
   import http from "../../http-common";
   import router from '../../router'
+  import Cookies from "js-cookie";
 
   export default {
     data: () => ({
@@ -81,14 +82,16 @@
               // console.log(response.data[0]);
               if (response.data[0] == undefined) {
                   // console.log('kosong')
-                  router.push('/auth')
+                  router.replace('/auth')
                   this.snackbar_gagal = true
                   this.text_gagal = 'Username atau Password Salah !!'
                   this.timeout_gagal = 3000  
               } else {
                   // console.log(JSON.stringify(response.data[0]))
-                  localStorage.setItem("user", JSON.stringify(response.data[0]));
-                  router.push('/listdata')  
+                  // localStorage.setItem("user", JSON.stringify(response.data[0]));
+                  Cookies.set('user', JSON.stringify(response.data[0]))
+                  // router.push('/auth/v1')  
+                  this.$router.replace({name: 'home'})
               }
             })
             .catch(e => {

@@ -186,9 +186,9 @@
     }),
 
     mounted () {
-      if(!localStorage.getItem('user')){
-        router.push('/auth')
-      } 
+      // if(!localStorage.getItem('user')){
+      //   router.push('/auth')
+      // } 
       this.$validator.localize('en', this.dictionary)
       var currentUrl = window.location.href
       var uri = currentUrl.split("/")      

@@ -4,9 +4,13 @@
 </template>
 <script>
 import router from '../../router'
+import Cookies from "js-cookie"
 export default {
     mounted(){
-        localStorage.removeItem('user');   
+        // localStorage.removeItem('user');   
+        // router.push('/auth')
+
+        Cookies.remove('user')
         router.push('/auth')
     }
 }
