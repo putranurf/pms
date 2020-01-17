@@ -151,6 +151,11 @@
                         label="Sub Departemen"
                       ></v-autocomplete>
                     </v-card-title>
+                    <div class="my-2">
+                      <v-btn @click="createPDF()">
+                        <v-icon>print</v-icon> Export PDF
+                      </v-btn>
+                    </div>
                     <v-data-table
                       :headers="headers"
                       :items="tableData.items"
@@ -216,6 +221,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
+import jsPDF from "jspdf";
 
 var nama_login = "";
 
@@ -355,6 +361,13 @@ export default {
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
         this.mapping_rooting.qty = response.data[0].qty;
       });
+    },
+    createPDF() {
+      let pdfName = "Laporan";
+      var doc = new jsPDF();
+      doc.text("Hello World", 10, 10);
+      doc.rect(10, 20, 25, 25);
+      doc.save(pdfName + ".pdf");
     }
   }
 };

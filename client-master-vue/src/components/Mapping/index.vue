@@ -243,7 +243,7 @@
                       </v-layout>
 
                       <v-btn @click="submit" v-on:click="saveMappingRooting">submit</v-btn>
-                      <v-btn @click="clear">clear</v-btn>
+                      <!-- <v-btn @click="clear">clear</v-btn> -->
                     </v-form>
                   </v-card-text>
                 </v-card>
@@ -389,7 +389,7 @@ export default {
   },
   // computed:{
   //   ...mapGetters(['getCoins'])
-  // },
+  // }, 
 
   methods: {
     // ...mapActions(['loadCoins']),
@@ -431,9 +431,10 @@ export default {
       this.$validator.reset();
     },
     saveMappingRooting() {
+      var nomor_pd_str = this.mapping_rooting.nomor_pd.substr(0, 11);
       var data = {
         id_peti: this.mapping_rooting.id_peti,
-        nomor_pd: this.mapping_rooting.nomor_pd,
+        nomor_pd: nomor_pd_str,
         kode_mat: this.mapping_rooting.kode_mat,
         desc_mat: this.mapping_rooting.desc_mat,
         qty: this.mapping_rooting.qty
@@ -467,6 +468,7 @@ export default {
       this.mapping_rooting = {};
     },
     changeItem: function changeItem(event) {
+      // alert(event)
       http.get("getNomorPdDetail/" + event.toString() + "").then(response => {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;

@@ -39,10 +39,10 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: '/home'
+    redirect: '/lockinglot'
   },
   {
-    path: "/home",
+    path: "/lockinglot",
     name: "home",
     component: Mapping,
     meta: {
