@@ -47,7 +47,7 @@
           </router-link>
         </li>
         <v-divider></v-divider>
-        <li>
+        <!-- <li>
           <router-link @click.native=" " to="/keterlambatan">
             <v-list-tile @click>
               <v-list-tile-action>
@@ -98,7 +98,7 @@
             </v-list-tile>
           </router-link>
         </li>
-        <v-divider></v-divider>
+        <v-divider></v-divider> -->
         <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
@@ -141,7 +141,7 @@
                     >
                       This is a success alert.
                     </v-alert>-->
-                    <v-form ref="form">
+                    <v-form ref="form" @submit.prevent="saveMappingRooting">
                       <!-- <p>{{ error }}</p>
 
                       <p class="decode-result">Last result: <b>{{ result }}</b></p>
@@ -199,7 +199,7 @@
                       </v-autocomplete>
 
                       <v-layout>
-                        <v-flex xs4 sm4>
+                        <v-flex xs3 sm3>
                           <v-text-field
                             v-model="mapping_rooting.kode_mat"
                             v-validate="'required|max:50'"
@@ -213,7 +213,7 @@
                           ></v-text-field>
                         </v-flex>
 
-                        <v-flex xs4 sm4>
+                        <v-flex xs3 sm3>
                           <v-text-field
                             v-model="mapping_rooting.desc_mat"
                             v-validate="'required|max:50'"
@@ -227,7 +227,7 @@
                           ></v-text-field>
                         </v-flex>
 
-                        <v-flex xs4 sm4>
+                        <v-flex xs3 sm3>
                           <v-text-field
                             v-model="mapping_rooting.qty"
                             v-validate="'required|max:50'"
@@ -235,6 +235,19 @@
                             :error-messages="errors.collect('qty')"
                             label="Quantity"
                             data-vv-name="qty"
+                            outlined                            
+                            required
+                          ></v-text-field>
+                        </v-flex>
+
+                        <v-flex xs3 sm3>
+                          <v-text-field
+                            v-model="mapping_rooting.sisa_qty"
+                            v-validate="'required|max:50'"
+                            :counter="50"
+                            :error-messages="errors.collect('sisa_qty')"
+                            label="Sisa Quantity"
+                            data-vv-name="sisa_qty"
                             box
                             readonly
                             required
@@ -242,7 +255,9 @@
                         </v-flex>
                       </v-layout>
 
-                      <v-btn @click="submit" v-on:click="saveMappingRooting">submit</v-btn>
+                      
+
+                      <v-btn type="submit">submit</v-btn>
                       <!-- <v-btn @click="clear">clear</v-btn> -->
                     </v-form>
                   </v-card-text>
@@ -326,6 +341,7 @@ export default {
       kode_mat: "",
       desc_mat: "",
       qty: "",
+      sisa_qty: "",
       nomor_pd: ""
     },
     items: [],
@@ -435,41 +451,39 @@ export default {
     //   console.log(response)
     // },
     saveMappingRooting() {
-      // var data = {
-      //   id_peti: this.mapping_rooting.id_peti,
-      //   nomor_pd: this.mapping_rooting.nomor_pd,
-      //   kode_mat: this.mapping_rooting.kode_mat,
-      //   desc_mat: this.mapping_rooting.desc_mat,
-      //   qty: this.mapping_rooting.qty
-      // };
-
-      // http
-      //   .post("/postMappingRooting", data)
-      //   .then(response => {
-      //     if (response.data == "sukses") {
-      //       console.log(response);
-      //       this.snackbar_sukses = true;
-      //       this.text_sukses = "Data Mapping Berhasil di Input.";
-      //       this.timeout_sukses = 3000;
-      //     } else {
-      //       this.snackbar_gagal = true;
-      //       this.text_gagal =
-      //         "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
-      //       this.timeout_gagal = 3000;
-      //     }
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   });
-
-      // this.submitted = true;
-      // this.$refs.form.reset();
-      // // location.reload()
-      // const response = await http.put("/setQty", this.mapping_rooting.qty)
-      // console.log(response)
+       this.$validator.validateAll();
       var data = {
-            qty: this.mapping_rooting.qty,
-          };
+        id_peti: this.mapping_rooting.id_peti,
+        nomor_pd: this.mapping_rooting.nomor_pd,
+        kode_mat: this.mapping_rooting.kode_mat,
+        desc_mat: this.mapping_rooting.desc_mat,
+        qty: this.mapping_rooting.qty
+      };
+
+      http
+        .post("/postMappingRooting", data)
+        .then(response => {
+          if (response.data == "sukses" ) {
+            console.log(response);
+            this.snackbar_sukses = true;
+            this.text_sukses = "Data Mapping Berhasil di Input.";
+            this.timeout_sukses = 3000;
+          } else {
+            this.snackbar_gagal = true;
+            this.text_gagal =
+              "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
+            this.timeout_gagal = 3000;
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      this.submitted = true;
+      this.$refs.form.reset();
+      // location.reload()
+      
+      //Mengurangi Quantity di Tabel Mapping Routing Header
       http
         .put("/setQty/", data)
         .then(response => {          
@@ -479,6 +493,7 @@ export default {
           console.log(e);
         });
     },
+
     newMapping_rooting() {
       this.submitted = false;
       this.mapping_rooting = {};
@@ -488,12 +503,12 @@ export default {
       http.get("getNomorPdDetail/" + event.toString() + "").then(response => {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
-        // this.mapping_rooting.qty = response.data[0].qty;
-        if (response.data[0].qty >= 50) {          
-          this.mapping_rooting.qty = 50
-        } else {
-          this.mapping_rooting.qty = response.data[0].qty
-        }
+        this.mapping_rooting.sisa_qty = response.data[0].qty;
+        // if (response.data[0].qty >= 50) {          
+        //   this.mapping_rooting.qty = 50
+        // } else {
+        //   this.mapping_rooting.qty = response.data[0].qty
+        // }
       });
     }
   }

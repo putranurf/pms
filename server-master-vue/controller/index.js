@@ -52,7 +52,7 @@ module.exports = {
         })   
     },
     getNomorPd(req,res){
-        pool.query("SELECT * FROM tbl_mapping_routing_header WHERE NOT EXISTS (SELECT * FROM tbl_peti WHERE tbl_peti.nomor_pd = tbl_mapping_routing_header.nomor_pd) AND NOT EXISTS (SELECT * FROM tbl_conf WHERE tbl_conf.nomor_pd = tbl_mapping_routing_header.nomor_pd) and is_deleted is null  ORDER BY nomor_pd", (error, results) => {
+        pool.query("SELECT * FROM tbl_mapping_routing_header WHERE NOT EXISTS (SELECT * FROM tbl_conf WHERE tbl_conf.nomor_pd = tbl_mapping_routing_header.nomor_pd) and is_deleted is null AND qty != 0 ORDER BY nomor_pd", (error, results) => {
             if (error) {
                 console.log(error);
                 res.status(400).send(error);
@@ -79,20 +79,21 @@ module.exports = {
         // console.log('MASUK SINI')
         var id_peti = req.body.id_peti        
         var nomor_pd = req.body.nomor_pd        
+        var qty = req.body.qty        
         var timestamp = new Date().toLocaleString()
-        pool.query("DELETE FROM tbl_peti WHERE nomor_pd=$1",[nomor_pd], function (error, result) {
-        // done();
-        if (error) {
-            console.log(error);
-            res.status(400).send(error);
-        } else {
+        // pool.query("DELETE FROM tbl_peti WHERE nomor_pd=$1",[nomor_pd], function (error, result) {
+        // // done();
+        // if (error) {
+        //     console.log(error);
+        //     res.status(400).send(error);
+        // } else {
             pool.query('SELECT * from tbl_peti where id_peti=$1', [id_peti],(error, results3) => {
                 if (results3.rows.length != 0) {
                     console.log('geus aya coy di database data na');                 
                     res.status(200).json('gagal')                                            
                 } else {       
                     console.log('tah kieu data na asup, mantaap')         
-                    pool.query('SELECT tmr.nomor_pd, tmr.nomor_routing,tmr.work_center, tmr.nama_routing, tmr.kali, tmrh.plant, tmrh.kode_mat, tmrh.desc_mat, tmrh.total_routing, tmrh.qty, tmrh.uom as satuan, tmr.uom FROM tbl_mapping_routing tmr LEFT JOIN tbl_mapping_routing_header tmrh ON tmrh.nomor_pd = tmr.nomor_pd WHERE tmr.nomor_pd=$1', [nomor_pd],(error, results) => {
+                    pool.query('SELECT tmr.nomor_pd, tmr.nomor_routing,tmr.work_center, tmr.nama_routing, tmr.kali, tmrh.plant, tmrh.kode_mat, tmrh.desc_mat, tmrh.total_routing, tmrh.qty, tmrh.uom as satuan, tmr.uom, case when (select urutan_pd from tbl_peti where nomor_pd =$1 order by urutan_pd desc LIMIT 1) is null then 1 else (select urutan_pd from tbl_peti where nomor_pd =$1 order by urutan_pd desc LIMIT 1) + 1 end urutan_pd FROM tbl_mapping_routing tmr LEFT JOIN tbl_mapping_routing_header tmrh ON tmrh.nomor_pd = tmr.nomor_pd WHERE tmr.nomor_pd=$1', [nomor_pd],(error, results) => {
                         if (error) {
                             console.log('error yeuh' + error);
                             res.status(400).send(error);                            
@@ -101,7 +102,7 @@ module.exports = {
                             console.log(results.rows)
                             results.rows.forEach(element => {                                
                                 console.log(element.nomor_routing)
-                                pool.query("INSERT INTO tbl_peti (id_peti, nomor_pd, kode_mat, desc_mat, total_routing, uom, qty, nomor_routing, nama_routing, status_pasang, created_time, plant, kali, work_center, satuan) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);",[id_peti,element.nomor_pd, element.kode_mat, element.desc_mat, element.total_routing, element.uom, element.qty, element.nomor_routing, element.nama_routing, 'Y' ,timestamp, element.plant, element.kali, element.work_center, element.satuan], function (error2, results2) {        
+                                pool.query("INSERT INTO tbl_peti (id_peti, nomor_pd, kode_mat, desc_mat, total_routing, uom, qty, nomor_routing, nama_routing, status_pasang, created_time, plant, kali, work_center, satuan, urutan_pd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);",[id_peti,element.nomor_pd, element.kode_mat, element.desc_mat, element.total_routing, element.uom, qty, element.nomor_routing, element.nama_routing, 'Y' ,timestamp, element.plant, element.kali, element.work_center, element.satuan, element.urutan_pd], function (error2, results2) {        
                                     if (error2) {
                                         console.log(error2)
                                         res.status(400).send(error2)
@@ -119,8 +120,8 @@ module.exports = {
                     res.status(200).json('sukses')                                   
                 }
             })  
-        }
-        })
+        // }
+        // })
         
     },
     getNomorPetiDetail(req,res){
@@ -234,19 +235,20 @@ module.exports = {
         })
     },
     setQty(req,res){
+        var nomor_pd = req.body.nomor_pd
         var qty = req.body.qty
+        console.log('masuk setQty')
         console.log(qty)
-
         
-        // pool.query("UPDATE customers SET name=$2 , age=$3 WHERE id=$1",[id,name,age], function (error, result) {
-        // // done();
-        // if (error) {
-        //     console.log(error);
-        //     res.status(400).send(error);
-        // }
-        // else{
-        //     res.status(200).json(result.rows)        
-        // }
-        // })   
+        pool.query("UPDATE tbl_mapping_routing_header SET qty=qty-$2 WHERE nomor_pd=$1",[nomor_pd,qty], function (error, result) {
+        // done();
+        if (error) {
+            console.log(error);
+            res.status(400).send(error);
+        }
+        else{
+            res.status(200).json(result.rows)        
+        }
+        })   
     },
 };
