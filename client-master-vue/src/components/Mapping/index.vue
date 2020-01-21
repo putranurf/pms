@@ -133,7 +133,6 @@
           <v-flex d-flex xs12 order-xs5>
             <v-layout column>
               <v-flex>
-                
                 <v-card flat>
                   <v-card-text>
                     <!-- <v-alert
@@ -142,23 +141,6 @@
                     >
                       This is a success alert.
                     </v-alert>-->
-                    <ValidationObserver v-slot="{ handleSubmit }">
-                  <v-form @submit.prevent="handleSubmit(onSubmit)">
-                    <v-text-field v-model="fname" name="First Name" rules="required" />
-
-                    <v-text-field v-model="lname" name="Last Name" rules="required" />
-
-                    <v-text-field v-model="email" name="E-mail" rules="required|email" />
-
-                    <v-text-field v-model="password" type="password" name="Password" rules="required|min:6|confirmed:confirmation" />
-
-                    <v-text-field v-model="passwordConfirmation" type="password" name="Confirmation" vid="confirmation" rules="required" />
-
-                    <v-text-field v-model="country" name="Country" rules="required" />
-
-                    <button>Submit</button>
-                  </v-form>
-                </ValidationObserver>
                     <v-form ref="form" @submit.prevent="saveMappingRooting">
                       <!-- <p>{{ error }}</p>
 
@@ -270,6 +252,8 @@
                             readonly
                             required
                           ></v-text-field>
+
+                          
                         </v-flex>
                       </v-layout>
 
@@ -329,12 +313,12 @@ export default {
   },
 
   data: () => ({
-    fname: '',
-    lname: '',
-    email: '',
-    password: '',
-    passwordConfirmation: '',
-    country: '',
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+    country: "",
     drawer: null,
     footer: {
       inset: true
@@ -431,8 +415,8 @@ export default {
   // },
 
   methods: {
-    onSubmit () {
-      alert('Form submitted!');
+    onSubmit() {
+      alert("Form submitted!");
     },
     // ...mapActions(['loadCoins']),
     uppercase() {
@@ -472,54 +456,62 @@ export default {
       this.checkbox = null;
       this.$validator.reset();
     },
-    
+
     saveMappingRooting() {
-      this.submitted = true;      
-      this.$validator.$touch();
-      if (this.$validator.$invalid) {
-        return;
-      }
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          // eslint-disable-next-line
+          // alert("Form Submitted!");
+          // this.submitted = false;
 
-      var data = {
-        id_peti: this.mapping_rooting.id_peti,
-        nomor_pd: this.mapping_rooting.nomor_pd,
-        kode_mat: this.mapping_rooting.kode_mat,
-        desc_mat: this.mapping_rooting.desc_mat,
-        qty: this.mapping_rooting.qty
-      };
+          var data = {
+            id_peti: this.mapping_rooting.id_peti,
+            nomor_pd: this.mapping_rooting.nomor_pd,
+            kode_mat: this.mapping_rooting.kode_mat,
+            desc_mat: this.mapping_rooting.desc_mat,
+            qty: this.mapping_rooting.qty
+          };
 
-      http
-        .post("/postMappingRooting", data)
-        .then(response => {
-          if (response.data == "sukses") {
-            console.log(response);
-            this.snackbar_sukses = true;
-            this.text_sukses = "Data Mapping Berhasil di Input.";
-            this.timeout_sukses = 3000;
-          } else {
-            this.snackbar_gagal = true;
-            this.text_gagal =
-              "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
-            this.timeout_gagal = 3000;
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
+          http
+            .post("/postMappingRooting", data)
+            .then(response => {
+              if (response.data == "sukses") {
+                console.log(response);
+                this.snackbar_sukses = true;
+                this.text_sukses = "Data Mapping Berhasil di Input.";
+                this.timeout_sukses = 3000;
+              } else {
+                this.snackbar_gagal = true;
+                this.text_gagal =
+                  "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
+                this.timeout_gagal = 3000;
+              }
+            })
+            .catch(e => {
+              console.log(e);
+            });
 
-      // this.submitted = true;
-      this.$refs.form.reset();
-      // location.reload()
+          this.submitted = true;
+          this.$refs.form.reset();
+          this.$validator.reset();
+          // location.reload()
 
-      //Mengurangi Quantity di Tabel Mapping Routing Header
-      http
-        .put("/setQty/", data)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(e => {
-          console.log(e);
-        });
+          //Mengurangi Quantity di Tabel Mapping Routing Header
+          http
+            .put("/setQty/", data)
+            .then(response => {
+              console.log(response);
+            })
+            .catch(e => {
+              console.log(e);
+            });
+          return;
+        }
+        // alert("Data Tidak Boleh Kosong");
+        this.snackbar_gagal = true;
+        this.text_gagal = "Data Input Masih Terdapat Kesalahan";
+        this.timeout_gagal = 3000;
+      });
     },
 
     newMapping_rooting() {
