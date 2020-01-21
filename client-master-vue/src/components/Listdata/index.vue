@@ -239,7 +239,7 @@ import Cookies from "js-cookie"
       //   router.push('/auth')
       // }
 
-      // this.nama_login_user = JSON.parse(Cookies.get("user"))
+      this.nama_login_user = JSON.parse(Cookies.get("user"))
       
       this.retrievePeti();
       

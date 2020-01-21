@@ -15,7 +15,7 @@
                     </v-btn>
                   </template>
                   <span>Source</span>
-                </v-tooltip> -->
+                </v-tooltip>-->
                 <!-- <v-tooltip right>
                   <template v-slot:activator="{ on }">
                     <v-btn icon large href="https://codepen.io/johnjleider/pen/wyYVVj" target="_blank" v-on="on">
@@ -23,18 +23,29 @@
                     </v-btn>
                   </template>
                   <span>Codepen</span>
-                </v-tooltip> -->
+                </v-tooltip>-->
               </v-toolbar>
               <v-card-text>
-                <v-form>
-                  <v-text-field prepend-icon="person"  v-model="auth.username" label="Username" type="text"></v-text-field>
-                  <v-text-field id="password" prepend-icon="lock" v-model="auth.password" label="Password" type="password"></v-text-field>
+                <v-form @submit.prevent="handleSubmit">
+                  <v-text-field
+                    prepend-icon="person"
+                    v-model="auth.username"
+                    label="Username"
+                    type="text"
+                  ></v-text-field>
+                  <v-text-field
+                    id="password"
+                    prepend-icon="lock"
+                    v-model="auth.password"
+                    label="Password"
+                    type="password"
+                  ></v-text-field>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" type="submit" >Login</v-btn>
+                  </v-card-actions>
                 </v-form>
               </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" v-on:click="handleSubmit">Login</v-btn>
-              </v-card-actions>
             </v-card>
           </v-flex>
         </v-layout>
@@ -42,11 +53,8 @@
           <v-snackbar
             color="red darken-2"
             v-model="snackbar_gagal"
-            :timeout="timeout_gagal" 
-          >
-            {{ text_gagal }}
-            
-          </v-snackbar>
+            :timeout="timeout_gagal"
+          >{{ text_gagal }}</v-snackbar>
         </div>
       </v-container>
     </v-content>
@@ -54,55 +62,55 @@
 </template>
 
 <script>
-  import http from "../../http-common";
-  import router from '../../router'
-  import Cookies from "js-cookie";
+import http from "../../http-common";
+import router from "../../router";
+import Cookies from "js-cookie";
 
-  export default {
-    data: () => ({
-      drawer: null,
-      auth: {
-        username: '',
-        password: '',        
-      },
-      snackbar_gagal: false,
-      text_gagal: '',
-      timeout_gagal: 0,
-    }),
-
-    methods: {
-      handleSubmit() {
-          var data = {
-            username: this.auth.username,
-            password: this.auth.password,           
-          };                 
-          http
-            .post("/postLogin", data)
-            .then(response => {
-              // console.log(response.data[0]);
-              if (response.data[0] == undefined) {
-                  // console.log('kosong')
-                  router.replace('/auth')
-                  this.snackbar_gagal = true
-                  this.text_gagal = 'Username atau Password Salah !!'
-                  this.timeout_gagal = 3000  
-              } else {
-                  // console.log(JSON.stringify(response.data[0]))
-                  // localStorage.setItem("user", JSON.stringify(response.data[0]));
-                  Cookies.set('user', JSON.stringify(response.data[0]))
-                  // router.push('/auth/v1')  
-                  this.$router.replace({name: 'home'})
-              }
-            })
-            .catch(e => {
-              console.log(e);
-            });
-    
-          this.submitted = true;          
-        },        
+export default {
+  data: () => ({
+    drawer: null,
+    auth: {
+      username: "",
+      password: ""
     },
-    props: {
-      source: String
-    },    
+    snackbar_gagal: false,
+    text_gagal: "",
+    timeout_gagal: 0
+  }),
+
+  methods: {
+    handleSubmit() {
+      var data = {
+        username: this.auth.username,
+        password: this.auth.password
+      };
+      http
+        .post("/postLogin", data)
+        .then(response => {
+          // console.log(response.data[0]);
+          if (response.data[0] == undefined) {
+            // console.log('kosong')
+            router.replace("/auth");
+            this.snackbar_gagal = true;
+            this.text_gagal = "Username atau Password Salah !!";
+            this.timeout_gagal = 3000;
+          } else {
+            // console.log(JSON.stringify(response.data[0]))
+            // localStorage.setItem("user", JSON.stringify(response.data[0]));
+            Cookies.set("user", JSON.stringify(response.data[0]));
+            // router.push('/auth/v1')
+            this.$router.replace({ name: "home" });
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      this.submitted = true;
+    }
+  },
+  props: {
+    source: String
   }
+};
 </script>

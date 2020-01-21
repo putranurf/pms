@@ -211,7 +211,8 @@
   import VeeValidate from 'vee-validate'
   import http from "../../http-common"
 import router from '../../router'
-
+  import Cookies from 'js-cookie'
+  
   Vue.use(VeeValidate)  
   var arr = ''
   export default {
@@ -287,6 +288,7 @@ import router from '../../router'
       //   router.push('auth')
       // } 
       // this.nama_login_user = JSON.parse(localStorage.getItem("user"))
+      this.nama_login_user = JSON.parse(Cookies.get("user"));
       this.$refs.id_peti.focus();
       this.$validator.localize('en', this.dictionary)
       http

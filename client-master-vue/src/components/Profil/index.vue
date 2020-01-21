@@ -172,7 +172,7 @@
   import VeeValidate from 'vee-validate'
   import http from "../../http-common";
   import router from '../../router'
-
+  import Cookies from 'js-cookie'
 
   Vue.use(VeeValidate)  
   
@@ -240,6 +240,7 @@
       //   router.push('auth')
       // }             
       // this.nama_login_user = JSON.parse(localStorage.getItem("user")) 
+      this.nama_login_user = JSON.parse(Cookies.get("user"));
       this.$validator.localize('en', this.dictionary)      
       http.get('/getUserDetail/'+this.nama_login_user.npp+'')
       .then(response => (this.npp          = response.data[0].npp,

@@ -98,7 +98,7 @@
             </v-list-tile>
           </router-link>
         </li>
-        <v-divider></v-divider> -->
+        <v-divider></v-divider>-->
         <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
@@ -133,6 +133,7 @@
           <v-flex d-flex xs12 order-xs5>
             <v-layout column>
               <v-flex>
+                
                 <v-card flat>
                   <v-card-text>
                     <!-- <v-alert
@@ -141,6 +142,23 @@
                     >
                       This is a success alert.
                     </v-alert>-->
+                    <ValidationObserver v-slot="{ handleSubmit }">
+                  <v-form @submit.prevent="handleSubmit(onSubmit)">
+                    <v-text-field v-model="fname" name="First Name" rules="required" />
+
+                    <v-text-field v-model="lname" name="Last Name" rules="required" />
+
+                    <v-text-field v-model="email" name="E-mail" rules="required|email" />
+
+                    <v-text-field v-model="password" type="password" name="Password" rules="required|min:6|confirmed:confirmation" />
+
+                    <v-text-field v-model="passwordConfirmation" type="password" name="Confirmation" vid="confirmation" rules="required" />
+
+                    <v-text-field v-model="country" name="Country" rules="required" />
+
+                    <button>Submit</button>
+                  </v-form>
+                </ValidationObserver>
                     <v-form ref="form" @submit.prevent="saveMappingRooting">
                       <!-- <p>{{ error }}</p>
 
@@ -230,12 +248,12 @@
                         <v-flex xs3 sm3>
                           <v-text-field
                             v-model="mapping_rooting.qty"
-                            v-validate="'required|max:50'"
+                            v-validate="'required|numeric|max:4|max_value:' + mapping_rooting.sisa_qty"
                             :counter="50"
                             :error-messages="errors.collect('qty')"
                             label="Quantity"
                             data-vv-name="qty"
-                            outlined                            
+                            outlined
                             required
                           ></v-text-field>
                         </v-flex>
@@ -254,8 +272,6 @@
                           ></v-text-field>
                         </v-flex>
                       </v-layout>
-
-                      
 
                       <v-btn type="submit">submit</v-btn>
                       <!-- <v-btn @click="clear">clear</v-btn> -->
@@ -295,6 +311,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../http-common";
 import router from "../../router";
+import Cookies from "js-cookie";
 // import { QrcodeStream } from 'vue-qrcode-reader'
 
 // import { mapState } from 'vuex'
@@ -312,6 +329,12 @@ export default {
   },
 
   data: () => ({
+    fname: '',
+    lname: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    country: '',
     drawer: null,
     footer: {
       inset: true
@@ -389,7 +412,7 @@ export default {
     //   router.push("/auth");
     // }
 
-    // this.nama_login_user = JSON.parse(Cookies.get("user"));
+    this.nama_login_user = JSON.parse(Cookies.get("user"));
     this.$refs.id_peti.focus();
     // console.log(this.$store.state)
     // this.$store.dispatch('loadCoins')
@@ -405,9 +428,12 @@ export default {
   },
   // computed:{
   //   ...mapGetters(['getCoins'])
-  // }, 
+  // },
 
   methods: {
+    onSubmit () {
+      alert('Form submitted!');
+    },
     // ...mapActions(['loadCoins']),
     uppercase() {
       // console.log(this.nama_login_user)
@@ -446,12 +472,14 @@ export default {
       this.checkbox = null;
       this.$validator.reset();
     },
-    // async setQty() {
-    //   const response = await http.post("/setQty", 50)
-    //   console.log(response)
-    // },
+    
     saveMappingRooting() {
-       this.$validator.validateAll();
+      this.submitted = true;      
+      this.$validator.$touch();
+      if (this.$validator.$invalid) {
+        return;
+      }
+
       var data = {
         id_peti: this.mapping_rooting.id_peti,
         nomor_pd: this.mapping_rooting.nomor_pd,
@@ -463,7 +491,7 @@ export default {
       http
         .post("/postMappingRooting", data)
         .then(response => {
-          if (response.data == "sukses" ) {
+          if (response.data == "sukses") {
             console.log(response);
             this.snackbar_sukses = true;
             this.text_sukses = "Data Mapping Berhasil di Input.";
@@ -479,15 +507,15 @@ export default {
           console.log(e);
         });
 
-      this.submitted = true;
+      // this.submitted = true;
       this.$refs.form.reset();
       // location.reload()
-      
+
       //Mengurangi Quantity di Tabel Mapping Routing Header
       http
         .put("/setQty/", data)
-        .then(response => {          
-            console.log(response);          
+        .then(response => {
+          console.log(response);
         })
         .catch(e => {
           console.log(e);
@@ -504,7 +532,7 @@ export default {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
         this.mapping_rooting.sisa_qty = response.data[0].qty;
-        // if (response.data[0].qty >= 50) {          
+        // if (response.data[0].qty >= 50) {
         //   this.mapping_rooting.qty = 50
         // } else {
         //   this.mapping_rooting.qty = response.data[0].qty

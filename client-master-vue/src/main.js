@@ -13,6 +13,7 @@ import VueQrcodeReader from "vue-qrcode-reader";
 import swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 // import 'sweetalert2/src/sweetalert2.scss'
+import { ValidationObserver, ValidationProvider, extend, localize } from 'vee-validate';
 
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
@@ -21,6 +22,9 @@ Vue.use(Vuetify)
 Vue.config.productionTip = false
 // Vue.use(VueRouter)
 Vue.use(VueQrcodeReader);
+
+Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);
 
 
 new Vue({
