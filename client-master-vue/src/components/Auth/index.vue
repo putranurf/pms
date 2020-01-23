@@ -6,7 +6,7 @@
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
-                <v-toolbar-title>PMS DEVELOPMENT - LOGIN</v-toolbar-title>
+                <v-toolbar-title>PMS - LOGIN</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <!-- <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
