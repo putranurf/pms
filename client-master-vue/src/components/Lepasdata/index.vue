@@ -198,6 +198,13 @@
             
           </v-snackbar>
         </div>
+         <div class="text-center">
+          <v-snackbar
+            color="red darken-2"
+            v-model="snackbar_gagal"
+            :timeout="timeout_gagal"
+          >{{ text_gagal }}</v-snackbar>
+        </div>
       </v-container>
     </template>
     <v-footer :inset="footer.inset" color="indigo" app>
@@ -231,6 +238,9 @@ import router from '../../router'
       snackbar: false,
       text: '',
       timeout: 0,
+      snackbar_gagal: false,
+      text_gagal: "",
+      timeout_gagal: 0,
       breadcumbs: [
       {
         text: 'Home',
@@ -247,7 +257,8 @@ import router from '../../router'
         kode_mat:'',
         desc_mat:'',
         qty:'',
-        nomor_pd: ''
+        nomor_pd: '',
+        urutan_pd: ''
       },
       items: [],
       dictionary: {
@@ -317,7 +328,8 @@ import router from '../../router'
       lepasNomorPd() {          
           var data = {
             id_peti: this.mapping_rooting.id_peti,
-            nomor_pd: this.mapping_rooting.nomor_pd
+            nomor_pd: this.mapping_rooting.nomor_pd,
+            urutan_pd: this.mapping_rooting.urutan_pd
           }; 
           console.log(data)       
           http
@@ -327,6 +339,10 @@ import router from '../../router'
                 this.snackbar = true
                 this.text = 'Data Lot Berhasil di Unlock.'
                 this.timeout = 3000  
+              } else {
+                this.snackbar_gagal = true
+                this.text_gagal = 'Unlock Gagal. Kotak LOT ini Sedang di Proses Produksi.'
+                this.timeout_gagal = 3000  
               }
             })
             .catch(e => {
@@ -349,7 +365,8 @@ import router from '../../router'
               this.mapping_rooting.nomor_pd = response.data[0].nomor_pd
               this.mapping_rooting.kode_mat = response.data[0].kode_mat
               this.mapping_rooting.desc_mat = response.data[0].desc_mat
-              this.mapping_rooting.qty = response.data[0].qty })
+              this.mapping_rooting.qty = response.data[0].qty 
+              this.mapping_rooting.urutan_pd = response.data[0].urutan_pd })
         }
     }
   }
