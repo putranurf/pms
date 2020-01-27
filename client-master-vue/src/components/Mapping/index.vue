@@ -523,7 +523,7 @@ export default {
       http.get("getNomorPdDetail/" + event.toString() + "").then(response => {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
-        this.mapping_rooting.sisa_qty = response.data[0].qty;
+        this.mapping_rooting.sisa_qty = response.data[0].curr_qty;
         // if (response.data[0].qty >= 50) {
         //   this.mapping_rooting.qty = 50
         // } else {
