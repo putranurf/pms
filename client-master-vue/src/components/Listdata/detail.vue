@@ -177,6 +177,7 @@
   import VeeValidate from 'vee-validate'
   import http from "../../http-common.js";
   import router from '../../router'
+  import Cookies from "js-cookie"
   
   Vue.use(VeeValidate)
 
@@ -245,6 +246,7 @@
       //   router.push('/auth')
       // } 
       // this.nama_login_user = JSON.parse(localStorage.getItem("user"))
+      this.nama_login_user = JSON.parse(Cookies.get("user"))
       this.$validator.localize('en', this.dictionary)
       var currentUrl = window.location.href
       var uri = currentUrl.split("/")    

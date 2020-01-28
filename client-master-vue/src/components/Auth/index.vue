@@ -99,7 +99,7 @@ export default {
             // localStorage.setItem("user", JSON.stringify(response.data[0]));
             Cookies.set("user", JSON.stringify(response.data[0]));
             // router.push('/auth/v1')
-            this.$router.replace({ name: "home" });
+            this.$router.replace({name: 'home'});
           }
         })
         .catch(e => {

@@ -17,24 +17,28 @@ import Cookies from "js-cookie";
 
 Vue.use(VueRouter);
 
-//   },
-//   // { path: "/", component: Mapping },
-//   // { path: "/listdata", component: Listdata },
-//   // { path: "/listdata/edit/:id", component: Editdata },
-//   // { path: "/listdata/detail/:id", component: Detaildata },
-//   // { path: "/lepasdata", component: Lepasdata },
-//   // { path: "/Logout", component: Logout },
-//   // { path: "/profil", component: Profil },
-//   // { path: "/keterlambatan", component: Keterlambatan },
-//   // { path: "/dispatchlist", component: DispatchList },
-//   // { path: "/laporanio", component: LaporanIo },
-//   // { path: "/hasilproduksi", component: HasilProduksi },
-// {
-//   path: "*",
-//   name: "404",
-//   component: error
-// }
+// const routes = [
+//   // },
+//   { path: "/", component: Mapping },
+//   { path: "/listdata", component: Listdata },
+//   { path: "/listdata/edit/:id", component: Editdata },
+//   { path: "/listdata/detail/:id", component: Detaildata },
+//   { path: "/lepasdata", component: Lepasdata },
+//   { path: "/auth", component:  Auth },
+//   { path: "/Logout", component: Logout },
+//   { path: "/profil", component: Profil },
+//   { path: "/keterlambatan", component: Keterlambatan },
+//   { path: "/dispatchlist", component: DispatchList },
+//   { path: "/laporanio", component: LaporanIo },
+//   { path: "/hasilproduksi", component: HasilProduksi },
+// // {
+// //   path: "*",
+// //   name: "404",
+// //   component: error
+// // }
 // ];
+
+
 
 const routes = [
   {
@@ -138,7 +142,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes
 });
@@ -162,3 +166,4 @@ router.beforeEach((to, from, next) => {
 
 
 export default router;
+

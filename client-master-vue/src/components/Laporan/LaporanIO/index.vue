@@ -192,7 +192,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
-import PivotTable from "@marketconnect/vue-pivot-table";
+// import PivotTable from "@marketconnect/vue-pivot-table";
 
 var nama_login = "";
 
@@ -224,7 +224,7 @@ const data = [
 ];
 
 export default {
-  components: { PivotTable },
+  // components: { PivotTable },
   data: () => ({
     data: data,
     asyncData: [],
