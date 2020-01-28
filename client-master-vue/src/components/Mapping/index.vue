@@ -463,7 +463,7 @@ export default {
           // eslint-disable-next-line
           // alert("Form Submitted!");
           // this.submitted = false;
-
+          
           var data = {
             id_peti: this.mapping_rooting.id_peti,
             nomor_pd: this.mapping_rooting.nomor_pd,
@@ -500,11 +500,22 @@ export default {
           http
             .put("/setQty/", data)
             .then(response => {
-              console.log(response);
+              // console.log(response);
+              this.items = []
+              http.get("/getNomorPd").then(response => {
+                this.data = response.data;
+                this.data.forEach(item => {
+                  this.items.push(item.nomor_pd);
+                  // this.nama_pd.push(item.desc_mat)
+                });
+              });
             })
             .catch(e => {
               console.log(e);
             });
+
+          // location.reload()
+            
           return;
         }
         // alert("Data Tidak Boleh Kosong");

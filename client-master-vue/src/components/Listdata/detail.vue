@@ -152,8 +152,8 @@
     <v-data-table
         :headers="headers"
         :items="list"
+        :items-per-page="10"
         class="elevation-1"
-        :pagination="rowsPerPage"
     >
         <template v-slot:items="props">
             <td>{{ props.item.nomor_routing }}</td>
@@ -218,9 +218,9 @@
     //       }
     //     }
     //   },
-    pagination: {
-        rowsPerPage: 100
-    },
+    // pagination: {
+    //     rowsPerPage: 100
+    // },
      drawer: null,
       footer: {
         inset: true
@@ -248,7 +248,7 @@
       this.$validator.localize('en', this.dictionary)
       var currentUrl = window.location.href
       var uri = currentUrl.split("/")    
-      http.get('/getPetiDetail/'+uri[6]+'')
+      http.get('/getPetiDetail/'+uri[5]+'')
       .then(response => (this.id_peti   = response.data[0].id_peti,
                          this.nomor_pd = response.data[0].nomor_pd,
                          this.kode_mat = response.data[0].kode_mat,
@@ -256,9 +256,8 @@
                          this.qty = response.data[0].qty,
                          this.nomor_routing = response.data[0].nomor_routing,
                          this.nama_routing = response.data[0].nama_routing,
-                         this.list = response.data,
-                         console.log(this.list)))
-                         
+                         this.list = response.data))
+      
 
     },
 
