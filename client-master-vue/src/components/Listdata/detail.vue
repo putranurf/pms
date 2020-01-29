@@ -250,7 +250,7 @@
       this.$validator.localize('en', this.dictionary)
       var currentUrl = window.location.href
       var uri = currentUrl.split("/")    
-      http.get('/getPetiDetail/'+uri[5]+'')
+      http.get('/getPetiDetail/'+uri[6]+'')
       .then(response => (this.id_peti   = response.data[0].id_peti,
                          this.nomor_pd = response.data[0].nomor_pd,
                          this.kode_mat = response.data[0].kode_mat,
