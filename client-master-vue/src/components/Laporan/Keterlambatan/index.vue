@@ -212,13 +212,13 @@
                         <td>{{ props.item.revisi }}</td>     
                         <td>{{ props.item.penyebab }}</td>     
                         <td>{{ props.item.tindakan }}</td>     
-                        <td>
+                        <!-- <td>
                             <router-link class="btn btn-primary" v-bind:to="'/listdata/detail/'+props.item.nomor_Pd">
                             <v-btn color="primary" fab small dark>
                               <v-icon>search</v-icon>
                             </v-btn>
                             </router-link>
-                        </td> 
+                        </td>  -->
                     </template>
                     
                     <template v-slot:no-results>
@@ -405,8 +405,7 @@ export default {
         http
           .get("/getLaporanKeterlambatan")
           .then(response => {
-            this.keterlambatan = response.data[0]; // JSON are parsed automatically.
-            console.log(this.keterlambatan[0]);               
+            this.keterlambatan = response.data; // JSON are parsed automatically.      
           })
           .catch(e => {
             console.log(e);

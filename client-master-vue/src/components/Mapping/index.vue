@@ -512,11 +512,6 @@ export default {
               console.log(e);
             });
 
-<<<<<<< HEAD
-=======
-          // location.reload()
-            
->>>>>>> f510fad6993475aee8440410b86852cfc31579a6
           return;
         }
         // alert("Data Tidak Boleh Kosong");
