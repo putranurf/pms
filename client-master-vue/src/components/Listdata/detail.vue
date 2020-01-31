@@ -152,8 +152,8 @@
     <v-data-table
         :headers="headers"
         :items="list"
+        :items-per-page="10"
         class="elevation-1"
-        :pagination="rowsPerPage"
     >
         <template v-slot:items="props">
             <td>{{ props.item.nomor_routing }}</td>
@@ -177,6 +177,7 @@
   import VeeValidate from 'vee-validate'
   import http from "../../http-common.js";
   import router from '../../router'
+  import Cookies from "js-cookie"
   
   Vue.use(VeeValidate)
 
@@ -218,9 +219,9 @@
     //       }
     //     }
     //   },
-    pagination: {
-        rowsPerPage: 100
-    },
+    // pagination: {
+    //     rowsPerPage: 100
+    // },
      drawer: null,
       footer: {
         inset: true
@@ -245,6 +246,7 @@
       //   router.push('/auth')
       // } 
       // this.nama_login_user = JSON.parse(localStorage.getItem("user"))
+      this.nama_login_user = JSON.parse(Cookies.get("user"))
       this.$validator.localize('en', this.dictionary)
       var currentUrl = window.location.href
       var uri = currentUrl.split("/")    
@@ -256,9 +258,8 @@
                          this.qty = response.data[0].qty,
                          this.nomor_routing = response.data[0].nomor_routing,
                          this.nama_routing = response.data[0].nama_routing,
-                         this.list = response.data,
-                         console.log(this.list)))
-                         
+                         this.list = response.data))
+      
 
     },
 
