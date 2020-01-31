@@ -265,4 +265,15 @@ module.exports = {
         }
         })   
     },
+    getLaporanKeterlambatan(req,res){        
+        pool.query("SELECT nomor_pd,desc_mat as komponen, null as semula, null as revisi, desc_reason as penyebab, null as tindakan FROM tbl_conf JOIN tbl_reason ON tbl_conf.reason = tbl_reason.id_reason where status = 'C' ",(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
 };

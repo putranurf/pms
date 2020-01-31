@@ -13,7 +13,8 @@ const { getPeti,
         postMappingRooting,
         postLogin,
         postDelete,
-        setQty
+        setQty,
+        getLaporanKeterlambatan
          } = require('../controller/')
 
 router.get('/getPeti',getPeti)
@@ -22,13 +23,14 @@ router.get('/getNomorPd', getNomorPd)
 router.get('/getNomorPdDetail/:id', getNomorPdDetail)
 router.get('/getNomorPetiDetail/:id',getNomorPetiDetail)
 router.get('/getUserDetail/:id',getUserDetail)
+router.get('/getLaporanKeterlambatan/',getLaporanKeterlambatan)
 router.put('/update', update)
 router.put('/lepas/', lepas)
 router.put('/gantiPassword', gantiPassword)
+router.put('/setQty/',setQty)
 router.post('/postMappingRooting',postMappingRooting)
 router.post('/postLogin',postLogin)
 router.post('/postDelete',postDelete)
-router.put('/setQty/',setQty)
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

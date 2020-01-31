@@ -47,7 +47,7 @@
           </router-link>
         </li>
         <v-divider></v-divider>
-        <!-- <li>
+        <li>
           <router-link @click.native=" " to="/keterlambatan">
             <v-list-tile @click>
               <v-list-tile-action>
@@ -98,7 +98,7 @@
             </v-list-tile>
           </router-link>
         </li>
-        <v-divider></v-divider>-->
+        <v-divider></v-divider>
         <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
@@ -252,8 +252,6 @@
                             readonly
                             required
                           ></v-text-field>
-
-                          
                         </v-flex>
                       </v-layout>
 
@@ -505,6 +503,7 @@ export default {
             .catch(e => {
               console.log(e);
             });
+
           return;
         }
         // alert("Data Tidak Boleh Kosong");
@@ -523,7 +522,7 @@ export default {
       http.get("getNomorPdDetail/" + event.toString() + "").then(response => {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
-        this.mapping_rooting.sisa_qty = response.data[0].qty;
+        this.mapping_rooting.sisa_qty = response.data[0].curr_qty;
         // if (response.data[0].qty >= 50) {
         //   this.mapping_rooting.qty = 50
         // } else {

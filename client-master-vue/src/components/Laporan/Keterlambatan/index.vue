@@ -151,16 +151,16 @@
                         label="Sub Departemen"
                       ></v-autocomplete>
                     </v-card-title>
-                    <div class="my-2">
+                    <!-- <div class="my-2">
                       <v-btn @click="createPDF()">
                         <v-icon>print</v-icon> Export PDF
                       </v-btn>
-                    </div>
-                    <v-data-table
+                    </div> -->
+                    <!-- <v-data-table
                       :headers="headers"
-                      :items="tableData.items"
+                      :items="keterlambatan"
                       :loading="loading"
-                      :total-items="tableData.total"
+                      :total-items="total"
                       class="si-table not-action"
                     >
                       <template slot="headers" slot-scope="props">
@@ -199,6 +199,33 @@
                           :class="`text-xs-${c.align}`"
                         >{{ c.format ? c.format(props.item[c.value]) : props.item[c.value] }}</td>
                       </template>
+                    </v-data-table> -->
+
+                    <v-data-table
+                    :headers="headers"
+                    :items="keterlambatan"
+                    >
+                    <template v-slot:items="props">
+                        <td>{{ props.item.nomor_pd }}</td>
+                        <td>{{ props.item.komponen }}</td>
+                        <td>{{ props.item.semula }}</td>     
+                        <td>{{ props.item.revisi }}</td>     
+                        <td>{{ props.item.penyebab }}</td>     
+                        <td>{{ props.item.tindakan }}</td>     
+                        <td>
+                            <router-link class="btn btn-primary" v-bind:to="'/listdata/detail/'+props.item.nomor_Pd">
+                            <v-btn color="primary" fab small dark>
+                              <v-icon>search</v-icon>
+                            </v-btn>
+                            </router-link>
+                        </td> 
+                    </template>
+                    
+                    <template v-slot:no-results>
+                        <v-alert :value="true" color="error" icon="warning">
+                        Your search for "{{ search }}" found no results.
+                        </v-alert>
+                    </template>
                     </v-data-table>
                   </v-card-text>
                 </v-card>
@@ -222,6 +249,7 @@ import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
 import jsPDF from "jspdf";
+import Cookies from "js-cookie";
 
 var nama_login = "";
 
@@ -274,19 +302,20 @@ export default {
         align: "center"
       }
     ],
-    tableData: {
-      items: [
-        {
-          no_pd: 1714481226758227561,
-          komponen: "2018-02-14T09:55:10.70019+07:00",
-          semula: 25.699999999999999,
-          revisi: "100",
-          penyebab: 76,
-          tindakan: 24.699999999999999
-        }
-      ],
-      total: 6
-    },
+    // tableData: {
+      // items: [
+      //   {
+      //     no_pd: 1714481226758227561,
+      //     komponen: "2018-02-14T09:55:10.70019+07:00",
+      //     semula: 25.699999999999999,
+      //     revisi: "100",
+      //     penyebab: 76,
+      //     tindakan: 24.699999999999999
+      //   }
+      // ],
+      keterlambatan: [],
+      total: 6,
+    // },
     loading: false,
     drawer: null,
     footer: {
@@ -312,49 +341,51 @@ export default {
     //   router.push("auth");
     // }
     // this.nama_login_user = JSON.parse(localStorage.getItem("user"));
+    this.nama_login_user = JSON.parse(Cookies.get("user"));
     this.$validator.localize("en", this.dictionary);
-    http.get("/getNomorPd").then(response => {
-      this.data = response.data;
-      this.data.forEach(item => {
-        this.items.push(item.nomor_pd);
-      });
-    });
+    // http.get("/getNomorPd").then(response => {
+    //   this.data = response.data;
+    //   this.data.forEach(item => {
+    //     this.items.push(item.nomor_pd);
+    //   });
+    // });
+    this.retrieveKeterlambatan();
   },
   methods: {
-    processTableHeaders(headers) {
-      const nested = !!headers.some(h => h.children);
+    // processTableHeaders(headers) {
+    //   const nested = !!headers.some(h => h.children);
 
-      if (nested) {
-        let children = [];
+    //   if (nested) {
+    //     let children = [];
 
-        const h = headers.map(h => {
-          if (h.children && h.children.length > null) {
-            children.push(...h.children);
+    //     const h = headers.map(h => {
+    //       if (h.children && h.children.length > null) {
+    //         children.push(...h.children);
 
-            return {
-              rowspan: 1,
-              colspan: h.children.length,
-              text: h.text,
-              align: h.align
-            };
-          }
-          return {
-            rowspan: 2,
-            colspan: 1,
-            text: h.text,
-            align: h.align
-          };
-        });
+    //         return {
+    //           rowspan: 1,
+    //           colspan: h.children.length,
+    //           text: h.text,
+    //           align: h.align
+    //         };
+    //       }
+    //       return {
+    //         rowspan: 2,
+    //         colspan: 1,
+    //         text: h.text,
+    //         align: h.align
+    //       };
+    //     });
 
-        return {
-          children: children,
-          parents: h
-        };
-      }
-      return {
-        parents: headers
-      };
-    },
+    //     return {
+    //       children: children,
+    //       parents: h
+    //     };
+    //   }
+    //   return {
+    //     parents: headers
+    //   };
+    // },
     changeItem: function changeItem(event) {
       http.get("getNomorPdDetail/" + event.toString() + "").then(response => {
         this.mapping_rooting.kode_mat = response.data[0].kode_mat;
@@ -362,13 +393,25 @@ export default {
         this.mapping_rooting.qty = response.data[0].qty;
       });
     },
-    createPDF() {
-      let pdfName = "Laporan";
-      var doc = new jsPDF();
-      doc.text("Hello World", 10, 10);
-      doc.rect(10, 20, 25, 25);
-      doc.save(pdfName + ".pdf");
-    }
+    // createPDF() {
+    //   let pdfName = "Laporan";
+    //   var doc = new jsPDF();
+    //   doc.text("Hello World", 10, 10);
+    //   doc.rect(10, 20, 25, 25);
+    //   doc.save(pdfName + ".pdf");
+    // },
+    retrieveKeterlambatan() {
+      // console.log('yeuh')
+        http
+          .get("/getLaporanKeterlambatan")
+          .then(response => {
+            this.keterlambatan = response.data[0]; // JSON are parsed automatically.
+            console.log(this.keterlambatan[0]);               
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      },
   }
 };
 </script>
