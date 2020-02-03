@@ -54,46 +54,7 @@
                 <v-icon>desktop_windows</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Laporan Keterlambatan</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </router-link>
-        </li>
-        <v-divider></v-divider>
-        <li>
-          <router-link @click.native=" " to="/dispatchlist">
-            <v-list-tile @click>
-              <v-list-tile-action>
-                <v-icon>desktop_windows</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Dispatch List</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </router-link>
-        </li>
-        <v-divider></v-divider>
-        <li>
-          <router-link @click.native=" " to="/laporanio">
-            <v-list-tile @click>
-              <v-list-tile-action>
-                <v-icon>desktop_windows</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Laporan I/O</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </router-link>
-        </li>
-        <v-divider></v-divider>
-        <li>
-          <router-link @click.native=" " to="/hasilproduksi">
-            <v-list-tile @click>
-              <v-list-tile-action>
-                <v-icon>desktop_windows</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Laporan Hasil Produksi</v-list-tile-title>
+                <v-list-tile-title>Laporan</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </router-link>
@@ -461,7 +422,7 @@ export default {
           // eslint-disable-next-line
           // alert("Form Submitted!");
           // this.submitted = false;
-          
+
           var data = {
             id_peti: this.mapping_rooting.id_peti,
             nomor_pd: this.mapping_rooting.nomor_pd,
@@ -499,7 +460,7 @@ export default {
             .put("/setQty/", data)
             .then(response => {
               // console.log(response);
-              this.items = []
+              this.items = [];
               http.get("/getNomorPd").then(response => {
                 this.data = response.data;
                 this.data.forEach(item => {

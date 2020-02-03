@@ -149,11 +149,11 @@
                         dense
                         filled
                         label="Sub Departemen"
-                      ></v-autocomplete> -->
+                      ></v-autocomplete>-->
                     </v-card-title>
                     <v-data-table
                       :headers="headers"
-                      :items="tableData.items"
+                      :items="hasilproduksi"
                       :loading="loading"
                       :total-items="tableData.total"
                       class="si-table not-action"
@@ -169,22 +169,62 @@
                               :width="header.width"
                               :class="header.align ? `text-xs-${header.align}` : ''"
                             >{{ header.text }}</th>
-                          </tr>                         
+                          </tr>
                         </template>
                       </template>
-                      <template slot="items" slot-scope="props">
-                        <td
-                          v-for="v in headers"
-                          v-if="!v.children"
-                          :key="v.value"
-                          :class="`text-xs-${v.align}`"
-                        >{{ v.format ? v.format(props.item[v.value]) : props.item[v.value] }}</td>
-                        <td
-                          v-else
-                          v-for="c in v.children"
-                          :key="c.value"
-                          :class="`text-xs-${c.align}`"
-                        >{{ c.format ? c.format(props.item[c.value]) : props.item[c.value] }}</td>
+                      <template v-slot:items="props">
+                        <td>
+                          <v-layout justify-center>{{ props.item.kode_mat }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.desc_mat }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.yield_qty }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.januari }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.februari }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.maret }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.april }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.mei }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.juni }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.juli }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.agustus }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.september }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.oktober }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.november }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.desember }}</v-layout>
+                        </td>
+                        <!-- <td>
+                            <router-link class="btn btn-primary" v-bind:to="'/listdata/detail/'+props.item.nomor_Pd">
+                            <v-btn color="primary" fab small dark>
+                              <v-icon>search</v-icon>
+                            </v-btn>
+                            </router-link>
+                        </td>-->
                       </template>
                     </v-data-table>
                   </v-card-text>
@@ -208,6 +248,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
+import Cookies from "js-cookie";
 
 var nama_login = "";
 
@@ -217,12 +258,12 @@ export default {
     value: null,
     search: "",
     headers: [
-      {
-        text: "No.",
-        value: "no",
-        sortable: false,
-        align: "center"
-      },
+      // {
+      //   text: "No.",
+      //   value: "no",
+      //   sortable: false,
+      //   align: "center"
+      // },
       {
         text: "Kode",
         value: "kode",
@@ -233,7 +274,13 @@ export default {
         text: "Uraian",
         sortable: false,
         align: "center",
-        value: "uraian",
+        value: "uraian"
+      },
+      {
+        text: "Qty",
+        sortable: false,
+        align: "center",
+        value: "qty"
       },
       {
         text: "JAN",
@@ -346,7 +393,8 @@ export default {
       }
     ],
 
-    items: []
+    items: [],
+    hasilproduksi: []
   }),
 
   mounted() {
@@ -354,13 +402,15 @@ export default {
     //   router.push("auth");
     // }
     // this.nama_login_user = JSON.parse(localStorage.getItem("user"));
+    this.nama_login_user = JSON.parse(Cookies.get("user"));
     this.$validator.localize("en", this.dictionary);
-    http.get("/getNomorPd").then(response => {
-      this.data = response.data;
-      this.data.forEach(item => {
-        this.items.push(item.nomor_pd);
-      });
-    });
+    // http.get("/getNomorPd").then(response => {
+    //   this.data = response.data;
+    //   this.data.forEach(item => {
+    //     this.items.push(item.nomor_pd);
+    //   });
+    // });
+    this.retrieveHasilProduksi();
   },
   methods: {
     processTableHeaders(headers) {
@@ -403,6 +453,17 @@ export default {
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
         this.mapping_rooting.qty = response.data[0].qty;
       });
+    },
+    retrieveHasilProduksi() {
+      // console.log('yeuh')
+      http
+        .get("/getHasilProduksi")
+        .then(response => {
+          this.hasilproduksi = response.data; // JSON are parsed automatically.
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 };

@@ -143,17 +143,17 @@
                     <v-card-title>
                       Dispatch List
                       <v-spacer></v-spacer>
-                      <v-autocomplete
+                      <!-- <v-autocomplete
                         v-model="value"
                         :items="dataKeterlambatan"
                         dense
                         filled
                         label="Sub Departemen"
-                      ></v-autocomplete>
+                      ></v-autocomplete> -->
                     </v-card-title>
                     <v-data-table
                       :headers="headers"
-                      :items="tableData.items"
+                      :items="dispatchlist"
                       :loading="loading"
                       :total-items="tableData.total"
                       class="si-table not-action"
@@ -169,22 +169,35 @@
                               :width="header.width"
                               :class="header.align ? `text-xs-${header.align}` : ''"
                             >{{ header.text }}</th>
-                          </tr>                         
+                          </tr>
                         </template>
                       </template>
-                      <template slot="items" slot-scope="props">
-                        <td
-                          v-for="v in headers"
-                          v-if="!v.children"
-                          :key="v.value"
-                          :class="`text-xs-${v.align}`"
-                        >{{ v.format ? v.format(props.item[v.value]) : props.item[v.value] }}</td>
-                        <td
-                          v-else
-                          v-for="c in v.children"
-                          :key="c.value"
-                          :class="`text-xs-${c.align}`"
-                        >{{ c.format ? c.format(props.item[c.value]) : props.item[c.value] }}</td>
+                      <template v-slot:items="props">
+                        <td>
+                          <v-layout justify-center>{{ props.item.nomor_wc }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.nomor_pd }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.tgl_mulai }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.tgl_selesai }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.nama_routing }}</v-layout>
+                        </td>
+                        <td>
+                          <v-layout justify-center>{{ props.item.durasi }}</v-layout>
+                        </td>
+                        <!-- <td>
+                            <router-link class="btn btn-primary" v-bind:to="'/listdata/detail/'+props.item.nomor_Pd">
+                            <v-btn color="primary" fab small dark>
+                              <v-icon>search</v-icon>
+                            </v-btn>
+                            </router-link>
+                        </td>-->
                       </template>
                     </v-data-table>
                   </v-card-text>
@@ -208,7 +221,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../../http-common";
 import router from "../../../router";
-// import Cookies from "js-cookie"
+import Cookies from "js-cookie"
 
 var nama_login = "";
 
@@ -234,7 +247,7 @@ export default {
         text: "Tanggal Mulai",
         sortable: false,
         align: "center",
-        value: "tanggal_mulai",
+        value: "tanggal_mulai"
       },
       {
         text: "Tanggal Selesai",
@@ -285,7 +298,8 @@ export default {
       }
     ],
 
-    items: []
+    items: [],
+    dispatchlist: [],
   }),
 
   mounted() {
@@ -293,13 +307,15 @@ export default {
     //   router.push("auth");
     // }
     // this.nama_login_user = JSON.parse(localStorage.getItem("user"));
+    this.nama_login_user = JSON.parse(Cookies.get("user"));
     this.$validator.localize("en", this.dictionary);
-    http.get("/getNomorPd").then(response => {
-      this.data = response.data;
-      this.data.forEach(item => {
-        this.items.push(item.nomor_pd);
-      });
-    });
+    // http.get("/getNomorPd").then(response => {
+    //   this.data = response.data;
+    //   this.data.forEach(item => {
+    //     this.items.push(item.nomor_pd);
+    //   });
+    // });
+    this.retrieveDispatchList();
   },
   methods: {
     processTableHeaders(headers) {
@@ -342,6 +358,17 @@ export default {
         this.mapping_rooting.desc_mat = response.data[0].desc_mat;
         this.mapping_rooting.qty = response.data[0].qty;
       });
+    },
+    retrieveDispatchList() {
+      // console.log('yeuh')
+      http
+        .get("/getDispatchList")
+        .then(response => {
+          this.dispatchlist = response.data; // JSON are parsed automatically.
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 };

@@ -276,4 +276,26 @@ module.exports = {
             }
         })
     },
+    getDispatchList(req,res){        
+        pool.query("select work_center as nomor_wc,nomor_pd,all_time as tgl_mulai,final_time as tgl_selesai, nama_routing, ROUND((EXTRACT(EPOCH FROM (final_time - all_time))/3600)::numeric,2) as durasi FROM tbl_conf where status = 'C'",(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
+    getHasilProduksi(req,res){        
+        pool.query("SELECT kode_mat,desc_mat,yield_qty,case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '1' then 'v' else ' ' end as Januari , case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '2' then 'v' else ' ' end as Februari , case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '3' then 'v' else ' ' end as Maret , case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '4' then 'v' else ' ' end as April , case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '5' then 'v' else ' ' end as Mei , case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '6' then 'v' else ' ' end as Juni,  case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '7' then 'v' else ' ' end as Juli,  case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '8' then 'v' else ' ' end as Agustus,  case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '9' then 'v' else ' ' end as September,  case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '10' then 'v' else ' ' end as Oktober,  case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '11' then 'v' else ' ' end as November, case when array_to_string(array_agg(EXTRACT(MONTH FROM final_time)), ',') = '12' then 'v' else ' ' end as Desember from tbl_conf where status = 'C'group by tbl_conf.kode_mat , tbl_conf.desc_mat, tbl_conf.yield_qty ",(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
 };
