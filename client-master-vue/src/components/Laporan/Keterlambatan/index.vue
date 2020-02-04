@@ -142,6 +142,7 @@
                     :items="keterlambatan"
                     :loading="loading"
                     :search="searchketerlambatan"
+                    hide-actions
                     class="si-table not-action"
                   >
                     <template slot="headers" slot-scope="props">
@@ -227,10 +228,10 @@
                         <v-layout justify-center>{{ props.item.tgl_selesai }}</v-layout>
                       </td>
                       <td>
-                        <v-layout justify-center>{{ props.item.nama_routing }}</v-layout>
+                        <v-layout justify-center>{{ props.item.durasi }}</v-layout>
                       </td>
                       <td>
-                        <v-layout justify-center>{{ props.item.durasi }}</v-layout>
+                        <v-layout justify-center>{{ props.item.nama_routing }}</v-layout>
                       </td>
                       <!-- <td>
                             <router-link class="btn btn-primary" v-bind:to="'/listdata/detail/'+props.item.nomor_Pd">
@@ -357,19 +358,19 @@ export default {
     headers: [
       {
         text: "No. PD",
-        value: "no_pd",
-        sortable: false,
+        value: "nomor_pd",
+        // sortable: false,
         align: "center",
       },
       {
         text: "Komponen",
         value: "komponen",
-        sortable: false,
+        // sortable: false,
         align: "center"
       },
       {
         text: "Tanggal Penyelsaian",
-        sortable: false,
+        // sortable: false,
         children: [
           {
             text: "Semula",
@@ -388,26 +389,26 @@ export default {
       {
         text: "Penyebab",
         value: "penyebab",
-        sortable: false,
+        // sortable: false,
         align: "center"
       },
       {
         text: "Tindakan",
         value: "tindakan",
-        sortable: false,
+        // sortable: false,
         align: "center"
       }
     ],
     headersdispatchlist: [
       {
         text: "No. WC",
-        value: "no_wc",
+        value: "nomor_wc",
         sortable: false,
         align: "center"
       },
       {
         text: "No. PD",
-        value: "no_pd",
+        value: "nomor_pd",
         sortable: false,
         align: "center"
       },
@@ -415,11 +416,17 @@ export default {
         text: "Tanggal Mulai",
         sortable: false,
         align: "center",
-        value: "tanggal_mulai"
+        value: "tgl_mulai"
       },
       {
         text: "Tanggal Selesai",
-        value: "tanggal_selesai",
+        value: "tgl_selesai",
+        sortable: false,
+        align: "center"
+      },
+      {
+        text: "Uraian",
+        value: "nama_routing",
         sortable: false,
         align: "center"
       },
@@ -429,12 +436,6 @@ export default {
         sortable: false,
         align: "center"
       },
-      {
-        text: "Uraian",
-        value: "uraian",
-        sortable: false,
-        align: "center"
-      }
     ],
     headersproduksi: [
       // {
@@ -445,7 +446,7 @@ export default {
       // },
       {
         text: "Kode",
-        value: "kode",
+        value: "kode_mat",
         sortable: false,
         align: "center"
       },
@@ -453,35 +454,35 @@ export default {
         text: "Uraian",
         sortable: false,
         align: "center",
-        value: "uraian"
+        value: "desc_mat"
       },
       {
         text: "Qty",
         sortable: false,
         align: "center",
-        value: "qty"
+        value: "yield_qty"
       },
       {
         text: "JAN",
-        value: "jan",
+        value: "januari",
         sortable: false,
         align: "center"
       },
       {
         text: "FEB",
-        value: "feb",
+        value: "februari",
         sortable: false,
         align: "center"
       },
       {
         text: "MAR",
-        value: "mar",
+        value: "maret",
         sortable: false,
         align: "center"
       },
       {
         text: "APR",
-        value: "apr",
+        value: "april",
         sortable: false,
         align: "center"
       },
@@ -493,43 +494,43 @@ export default {
       },
       {
         text: "JUN",
-        value: "jun",
+        value: "juni",
         sortable: false,
         align: "center"
       },
       {
         text: "JUL",
-        value: "jul",
+        value: "juli",
         sortable: false,
         align: "center"
       },
       {
         text: "AGU",
-        value: "agu",
+        value: "agustus",
         sortable: false,
         align: "center"
       },
       {
         text: "SEP",
-        value: "sep",
+        value: "september",
         sortable: false,
         align: "center"
       },
       {
         text: "OKT",
-        value: "okt",
+        value: "oktober",
         sortable: false,
         align: "center"
       },
       {
         text: "NOV",
-        value: "nov",
+        value: "november",
         sortable: false,
         align: "center"
       },
       {
         text: "DES",
-        value: "des",
+        value: "desember",
         sortable: false,
         align: "center"
       }
