@@ -53,7 +53,7 @@
         </li>
         <v-divider></v-divider>
         <li>
-          <router-link @click.native=" " to="/keterlambatan">
+          <router-link @click.native=" " to="/laporan">
             <v-list-tile @click>
               <v-list-tile-action>
                 <v-icon>desktop_windows</v-icon>
@@ -222,10 +222,10 @@
                         <v-layout justify-center>{{ props.item.nomor_pd }}</v-layout>
                       </td>
                       <td>
-                        <v-layout justify-center>{{ props.item.tgl_mulai }}</v-layout>
+                        <v-layout justify-center>{{ props.item.tgl_mulai | formatDate }}</v-layout>
                       </td>
                       <td>
-                        <v-layout justify-center>{{ props.item.tgl_selesai }}</v-layout>
+                        <v-layout justify-center>{{ props.item.tgl_selesai | formatDate }}</v-layout>
                       </td>
                       <td>
                         <v-layout justify-center>{{ props.item.durasi }}</v-layout>
@@ -344,7 +344,7 @@ import http from "../../../http-common";
 import router from "../../../router";
 import jsPDF from "jspdf";
 import Cookies from "js-cookie";
-
+// import dateFormat from 'dateformat';
 var nama_login = "";
 
 export default {

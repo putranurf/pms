@@ -50,7 +50,7 @@
         </li>
         <v-divider></v-divider>
         <li>
-          <router-link @click.native=" " to="/keterlambatan">
+          <router-link @click.native=" " to="/laporan">
             <v-list-tile @click>
               <v-list-tile-action>
                 <v-icon>desktop_windows</v-icon>

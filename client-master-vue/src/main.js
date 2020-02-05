@@ -11,6 +11,7 @@ import router from "./router"
 
 import swal from 'sweetalert2/dist/sweetalert2.js'
 import { ValidationObserver, ValidationProvider, extend, localize } from 'vee-validate';
+import moment from 'moment'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -18,6 +19,11 @@ Vue.config.productionTip = false
 
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('YYYY-MM-DD hh:mm')
+  }
+});
 
 
 new Vue({

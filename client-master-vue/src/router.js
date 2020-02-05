@@ -99,8 +99,8 @@ const routes = [
     }
   },
   {
-    path: "/keterlambatan",
-    name: "keterlambatan",
+    path: "/laporan",
+    name: "laporan",
     component: Keterlambatan,
     meta: {
       requiresAuth: true
