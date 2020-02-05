@@ -274,9 +274,9 @@
                         <td>
                           <v-layout justify-center>{{ props.item.desc_mat }}</v-layout>
                         </td>
-                        <td>
+                        <!-- <td>
                           <v-layout justify-center>{{ props.item.yield_qty }}</v-layout>
-                        </td>
+                        </!-->
                         <td>
                           <v-layout justify-center>{{ props.item.januari }}</v-layout>
                         </td>
@@ -456,12 +456,12 @@ export default {
         align: "center",
         value: "desc_mat"
       },
-      {
-        text: "Qty",
-        sortable: false,
-        align: "center",
-        value: "yield_qty"
-      },
+      // {
+      //   text: "Qty",
+      //   sortable: false,
+      //   align: "center",
+      //   value: "yield_qty"
+      // },
       {
         text: "JAN",
         value: "januari",
