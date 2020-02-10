@@ -26,8 +26,6 @@ module.exports = {
     },
     getPetiDetail(req,res){
         var id = req.params.id
-        console.log('INI ID OLOHH'+id);
-        
         pool.query('SELECT * FROM tbl_peti where id_peti=$1', [id],(error, results) => {
             if (error) {
                 console.log(error);
@@ -54,8 +52,7 @@ module.exports = {
         })   
     },
     getNomorPd(req,res){
-        // pool.query("SELECT * FROM tbl_mapping_routing_header WHERE NOT EXISTS (SELECT * FROM tbl_conf WHERE tbl_conf.nomor_pd = tbl_mapping_routing_header.nomor_pd) and is_deleted is null AND qty != 0 ORDER BY nomor_pd", (error, results) => {
-            pool.query("select * from tbl_mapping_routing_header where curr_qty <> 0", (error, results) => {
+        pool.query("SELECT * FROM tbl_mapping_routing_header WHERE NOT EXISTS (SELECT * FROM tbl_conf WHERE tbl_conf.nomor_pd = tbl_mapping_routing_header.nomor_pd) and is_deleted is null AND qty != 0 ORDER BY nomor_pd", (error, results) => {
             if (error) {
                 console.log(error);
                 res.status(400).send(error);
@@ -146,6 +143,7 @@ module.exports = {
     lepas(req,res){        
         var id = req.body.id_peti
         var nomor_pd = req.body.nomor_pd
+        var urutan_pd = req.body.urutan_pd
         // pool.query("UPDATE tbl_peti SET status_hapus = 'Y' , status_pasang = 'N' WHERE id_peti=$1",[id], function (error, result) {
         // // done();
         // if (error) {
@@ -158,23 +156,36 @@ module.exports = {
         // })    
         
         
-
-        pool.query("DELETE FROM tbl_peti WHERE id_peti=$1",[id], function (error, result) {
-        // done();
+        pool.query('select * from tbl_conf where lot=$1 ', [id],(error, results) => {
             if (error) {
-                console.log(error);
-                res.status(400).send(error);
-            } else {                         
-                pool.query("UPDATE tbl_mapping_routing_header SET is_deleted = '1' WHERE nomor_pd=$1",[nomor_pd], function (error, result) {
-                // done();
-                    if (error) {
-                        console.log(error);
-                        res.status(400).send(error)                    
-                    }
-                })           
-                res.status(200).json('sukses')
+                console.log('error yeuh' + error)
+                res.status(400).send(error)
+            } else {            
+                // console.log(results.rows)   
+                if (results.rows) {
+                    pool.query("DELETE FROM tbl_peti WHERE id_peti=$1",[id], function (error, result) {
+                    // done();
+                        if (error) {
+                            console.log(error);
+                            res.status(400).send(error);
+                        } else {                         
+                            pool.query("UPDATE tbl_mapping_routing_header SET is_deleted = '1' WHERE nomor_pd=$1",[nomor_pd], function (error, result) {
+                            // done();
+                                if (error) {
+                                    console.log(error);
+                                    res.status(400).send(error)                    
+                                }
+                            })           
+                            res.status(200).json('sukses')
+                        }
+                    })
+                } else {
+                    res.status(200).json('gagal')
+                }
             }
         })
+
+        
     },
     postLogin(req,res){ 
         console.log(req.body.username)
@@ -243,7 +254,7 @@ module.exports = {
         console.log('masuk setQty')
         console.log(qty)
         
-        pool.query("UPDATE tbl_mapping_routing_header SET curr_qty=curr_qty-$2 WHERE nomor_pd=$1",[nomor_pd,qty], function (error, result) {
+        pool.query("UPDATE tbl_mapping_routing_header SET qty=qty-$2 WHERE nomor_pd=$1",[nomor_pd,qty], function (error, result) {
         // done();
         if (error) {
             console.log(error);
