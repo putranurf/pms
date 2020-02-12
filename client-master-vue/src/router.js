@@ -12,6 +12,8 @@ import Keterlambatan from "./components/Laporan/Keterlambatan";
 import DispatchList from "./components/Laporan/DispatchList";
 import LaporanIo from "./components/Laporan/LaporanIO";
 import HasilProduksi from "./components/Laporan/HasilProduksi";
+import ExportXlsx from "./components/ExportXlsx/excel";
+import ExportXlsxSpread from "./components/ExportXlsx";
 import error from "../src/components/404/404.vue";
 import Cookies from "js-cookie";
 
@@ -126,6 +128,22 @@ const routes = [
     path: "/hasilproduksi",
     name: "hasilproduksi",
     component: HasilProduksi,    
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/export",
+    name: "exportxlsx",
+    component: ExportXlsx,    
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/export2",
+    name: "exportxlsxSpread",
+    component: ExportXlsxSpread,    
     meta: {
       requiresAuth: true
     }

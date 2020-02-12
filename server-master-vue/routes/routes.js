@@ -16,7 +16,8 @@ const { getPeti,
         setQty,
         getLaporanKeterlambatan,
         getDispatchList,
-        getHasilProduksi
+        getHasilProduksi,
+        getExportConf
          } = require('../controller/')
 
 router.get('/getPeti',getPeti)
@@ -28,6 +29,7 @@ router.get('/getUserDetail/:id',getUserDetail)
 router.get('/getLaporanKeterlambatan/',getLaporanKeterlambatan)
 router.get('/getDispatchList/',getDispatchList)
 router.get('/getHasilProduksi/',getHasilProduksi)
+router.get('/getExportConf/',getExportConf)
 router.put('/update', update)
 router.put('/lepas/', lepas)
 router.put('/gantiPassword', gantiPassword)

@@ -287,4 +287,15 @@ module.exports = {
             }
         })
     },
+    getExportConf(req,res){        
+        pool.query("select * from tbl_conf",(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
 };

@@ -12,11 +12,14 @@ import router from "./router"
 import swal from 'sweetalert2/dist/sweetalert2.js'
 import { ValidationObserver, ValidationProvider, extend, localize } from 'vee-validate';
 import moment from 'moment'
+import JsonExcel from 'vue-json-excel'
+ 
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 // Vue.use(VueRouter)
 
+Vue.component('downloadExcel', JsonExcel)
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.filter('formatDate', function(value) {
