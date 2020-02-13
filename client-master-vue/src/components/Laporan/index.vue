@@ -5,7 +5,7 @@
         <li>
           <v-flex xs12>
             <v-img
-              :src="require('../../../assets/logo_company.png')"
+              :src="require('../../assets/logo_company.png')"
               class="my-3"
               contain
               height="90"
@@ -65,6 +65,18 @@
           </router-link>
         </li>
         <v-divider></v-divider>
+        <li>
+          <router-link @click.native=" " to="/export">
+            <v-list-tile @click>
+              <v-list-tile-action>
+                <v-icon>cloud_download</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Export</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link>
+        </li>
         <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
@@ -340,8 +352,8 @@
 <script>
 import Vue from "vue";
 import VeeValidate from "vee-validate";
-import http from "../../../http-common";
-import router from "../../../router";
+import http from "../../http-common";
+import router from "../../router";
 import jsPDF from "jspdf";
 import Cookies from "js-cookie";
 // import dateFormat from 'dateformat';
@@ -553,7 +565,7 @@ export default {
         text: "Home"
       },
       {
-        text: "Laporan Keterlambatan"
+        text: "Laporan"
       }
     ],
 

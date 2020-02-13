@@ -8,7 +8,7 @@ import Lepasdata from "./components/Lepasdata";
 import Auth from "./components/Auth";
 import Logout from "./components/Auth/logout";
 import Profil from "./components/Profil";
-import Keterlambatan from "./components/Laporan/Keterlambatan";
+import Keterlambatan from "./components/Laporan";
 import DispatchList from "./components/Laporan/DispatchList";
 import LaporanIo from "./components/Laporan/LaporanIO";
 import HasilProduksi from "./components/Laporan/HasilProduksi";

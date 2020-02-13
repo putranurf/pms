@@ -61,6 +61,18 @@
         </li>
         <v-divider></v-divider>
         <li>
+          <router-link @click.native=" " to="/export">
+            <v-list-tile @click>
+              <v-list-tile-action>
+                <v-icon>cloud_download</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Export</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link>
+        </li>
+        <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
               <v-list-tile-action>
