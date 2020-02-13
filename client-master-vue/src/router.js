@@ -106,30 +106,6 @@ const routes = [
     }
   },
   {
-    path: "/dispatchlist",
-    name: "dispatchlist",
-    component: DispatchList,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/laporanio",
-    name: "laporanio",
-    component: LaporanIo,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/hasilproduksi",
-    name: "hasilproduksi",
-    component: HasilProduksi,    
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/export",
     name: "exportxlsx",
     component: ExportXlsx,    
