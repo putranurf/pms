@@ -13,6 +13,8 @@ const pool = new pg.Pool(config);
 
 module.exports = {
 
+
+    //Menampilkan Daftar Peti di Menu Unlocking Data Lot
     getPeti(req,res){
         pool.query("SELECT DISTINCT(id_peti),nomor_pd, kode_mat, desc_mat, qty  FROM tbl_peti WHERE status_pasang = 'Y' AND status_hapus is null order by id_peti", (error, results) => {
             if (error) {
@@ -53,6 +55,8 @@ module.exports = {
         }
         })   
     },
+
+    //List Nomor PD di Locking Lot
     getNomorPd(req,res){
         // pool.query("SELECT * FROM tbl_mapping_routing_header WHERE NOT EXISTS (SELECT * FROM tbl_conf WHERE tbl_conf.nomor_pd = tbl_mapping_routing_header.nomor_pd) and is_deleted is null AND qty != 0 ORDER BY nomor_pd", (error, results) => {
             pool.query("select * from tbl_mapping_routing_header where curr_qty <> 0", (error, results) => {
@@ -65,6 +69,9 @@ module.exports = {
             }
         })
     },
+
+    //Detail Nomor PD ketika di pilih dan menampilkan kode material, deskripsi material dan sisa Quantity 
+    //di Menu Locking Lot
     getNomorPdDetail(req,res){
         var nomor_pd = req.params.id
         console.log(nomor_pd)
@@ -78,6 +85,8 @@ module.exports = {
             }
         })
     },
+
+    //Ketika Locking lot di Submit di Menu Locking Lot
     postMappingRooting(req,res){ 
         // console.log('MASUK SINI')
         var id_peti = req.body.id_peti        
@@ -127,6 +136,10 @@ module.exports = {
         // })
         
     },
+
+
+    //Untuk Menampilkan Detail Nomor Peti yaitu Nomor PD, Kode Material
+    //Deskripsi Material dan Quantity di Menu Unlocking Data Lot
     getNomorPetiDetail(req,res){
         var id_peti = req.params.id
         console.log(id_peti)
@@ -143,6 +156,8 @@ module.exports = {
             }
         })
     },
+
+    //Ketika di submit di menu unlocking data lot
     lepas(req,res){        
         var id = req.body.id_peti
         var nomor_pd = req.body.nomor_pd
@@ -176,6 +191,8 @@ module.exports = {
             }
         })
     },
+
+    //Untuk Login PMS
     postLogin(req,res){ 
         console.log(req.body.username)
         var username = req.body.username        
@@ -211,6 +228,8 @@ module.exports = {
         }
         })   
     },
+
+    //Ganti Password di Menu Profil Pojok Kanan Atas
     gantiPassword(req,res){
         var npp = req.body.npp
         var password_baru = req.body.password_baru
@@ -225,6 +244,8 @@ module.exports = {
         }
         })   
     },
+
+    //Menampilkan detail yang login di Menu Profil Pojok Kanan Atas
     getUserDetail(req,res){        
         var id = req.params.id
         pool.query('SELECT * FROM tbl_user_auth where npp=$1', [id],(error, results) => {
@@ -237,6 +258,8 @@ module.exports = {
             }
         })
     },
+
+    //Untuk Mengupdate Kondisi Textbox Quantity di Menu Locking Lot
     setQty(req,res){
         var nomor_pd = req.body.nomor_pd
         var qty = req.body.qty
