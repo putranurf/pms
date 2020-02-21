@@ -108,9 +108,16 @@
             :fields="json_fields"
             worksheet="Data"
             name="Table Confirmation.xls"
-          >
+          >          
             <v-btn class="btn btn-primary" color="primary">EXPORT TO EXCEL</v-btn>
           </download-excel>
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
           <v-data-table :headers="headers" :items="excel_data" :search="search">
             <template v-slot:items="props">
               <td>{{ props.item.nomor_pd }}</td>

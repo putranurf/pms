@@ -288,7 +288,7 @@ module.exports = {
         })
     },
     getExportConf(req,res){        
-        pool.query("select * from tbl_conf",(error, results) => {
+        pool.query("select * from tbl_conf where is_send is null ",(error, results) => {
             if (error) {
                 console.log(error);
                 res.status(400).send(error);
