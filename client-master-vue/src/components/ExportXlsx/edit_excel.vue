@@ -249,14 +249,13 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="is_send"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('is_send')"
                         label="Is Send"
                         data-vv-name="is_send"
                         box
                         readonly
-                        
                       ></v-text-field>
                       <v-text-field
                         v-model="status"
@@ -324,25 +323,23 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="reason"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('reason')"
                         label="Reason"
                         data-vv-name="reason"
                         box
                         readonly
-                        required
                       ></v-text-field>
                       <v-text-field
                         v-model="updated_time"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('updated_time')"
                         label="Updated Time"
                         data-vv-name="updated_time"
                         box
                         readonly
-                        required
                       ></v-text-field>
                       <v-text-field
                         v-model="npp"
@@ -475,6 +472,20 @@
             </v-layout>
           </v-flex>
         </v-layout>
+        <div class="text-center">
+          <v-snackbar
+            color="cyan darken-2"
+            v-model="snackbar_sukses"
+            :timeout="timeout_sukses"
+          >{{ text_sukses }}</v-snackbar>
+        </div>
+        <div class="text-center">
+          <v-snackbar
+            color="red darken-2"
+            v-model="snackbar_gagal"
+            :timeout="timeout_gagal"
+          >{{ text_gagal }}</v-snackbar>
+        </div>
       </v-container>
     </template>
     <v-footer :inset="footer.inset" color="indigo" app>
@@ -564,7 +575,13 @@ export default {
     satuan: null,
     work_center: null,
     kali: null,
-    urutan_pd: null
+    urutan_pd: null,
+    snackbar_sukses: false,
+    text_sukses: "",
+    timeout_sukses: 0,
+    snackbar_gagal: false,
+    text_gagal: "",
+    timeout_gagal: 0,
   }),
 
   mounted() {
@@ -692,8 +709,11 @@ export default {
           // this.customer.id = response.data.id;
           // this.customer.name = response.data.name;
           // this.customer.age = response.data.age;
-          console.log('berhasil');
-          console.log(response.data);
+          // console.log('berhasil');
+          // console.log(response.data);
+          this.snackbar_sukses = true;
+          this.text_sukses = "Data Berhasil di Ubah";
+          this.timeout_sukses = 3000;
         })
         .catch(e => {
           console.log(e);
