@@ -20,6 +20,7 @@ const { getPeti,
         getHasilProduksi,
         getExportConf,
         getConfDetail,
+        getPetiDetailEdit,
          } = require('../controller/')
 
 router.get('/getPeti',getPeti)
@@ -33,6 +34,7 @@ router.get('/getDispatchList/',getDispatchList)
 router.get('/getHasilProduksi/',getHasilProduksi)
 router.get('/getExportConf/',getExportConf)
 router.get('/getConfDetail/:id',getConfDetail)
+router.get('/getPetiDetailEdit/:nomor_pd/:nomor_routing',getPetiDetailEdit)
 router.put('/update', update)
 router.put('/lepas/', lepas)
 router.put('/gantiPassword', gantiPassword)

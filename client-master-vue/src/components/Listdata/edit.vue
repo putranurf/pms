@@ -63,6 +63,19 @@
         </li>
         <v-divider></v-divider>
         <li>
+          <router-link @click.native=" " to="/export">
+            <v-list-tile @click>
+              <v-list-tile-action>
+                <v-icon>cloud_download</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Export</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </router-link>
+        </li>
+        <v-divider></v-divider>
+        <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
               <v-list-tile-action>
@@ -83,6 +96,7 @@
     </v-toolbar>
     <template>
       <v-container id="grid" fluid grid-list-sm tag="section">
+        <v-breadcrumbs :items="breadcumbs" divider=">"></v-breadcrumbs>
         <v-layout row wrap>
           <!-- <v-flex tag="h1" class="headline">Lorem Ipsum</v-flex> -->
           <v-flex d-flex xs12 order-xs5>
@@ -92,36 +106,36 @@
                   <v-card-text>
                     <form>
                       <v-text-field
-                        v-model="id_senjata"
+                        v-model="nomor_routing"
                         v-validate="'required|max:100'"
                         :counter="100"
-                        :error-messages="errors.collect('id')"
-                        label="ID"
-                        data-vv-name="id"
+                        :error-messages="errors.collect('nomor_routing')"
+                        label="Nomor Routing"
+                        data-vv-name="nomor_routing"       
                         box
+                        required                 
                         readonly
-                        required
                       ></v-text-field>
                       <v-text-field
-                        v-model="nama_senjata"
-                        v-validate="'required|max:100'"
+                        v-model="nama_routing"
+                        v-validate="'max:100'"
                         :counter="100"
-                        :error-messages="errors.collect('name')"
-                        label="Nama"
-                        data-vv-name="name"
-                        required
+                        :error-messages="errors.collect('nama_routing')"
+                        label="Nama Routing"
+                        data-vv-name="nama_routing"
+                        
                       ></v-text-field>
                       <v-text-field
-                        v-model="umur_senjata"
-                        v-validate="'required|max:2'"
-                        :counter="2"
-                        :error-messages="errors.collect('age')"
-                        label="Umur"
-                        data-vv-name="age"
-                        required
+                        v-model="work_center"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('work_center')"
+                        label="Work Center"
+                        data-vv-name="work_center"
+                        
                       ></v-text-field>
-                      <v-btn @click="submit" v-on:click="updateCustomer">submit</v-btn>
-                      <v-btn @click="clear">clear</v-btn>
+                      <v-btn @click="submit" v-on:click="updateLot">submit</v-btn>
+                      <!-- <v-btn @click="clear">clear</v-btn> -->
                     </form>
                   </v-card-text>
                 </v-card>
@@ -129,6 +143,20 @@
             </v-layout>
           </v-flex>
         </v-layout>
+        <div class="text-center">
+          <v-snackbar
+            color="cyan darken-2"
+            v-model="snackbar_sukses"
+            :timeout="timeout_sukses"
+          >{{ text_sukses }}</v-snackbar>
+        </div>
+        <div class="text-center">
+          <v-snackbar
+            color="red darken-2"
+            v-model="snackbar_gagal"
+            :timeout="timeout_gagal"
+          >{{ text_gagal }}</v-snackbar>
+        </div>
       </v-container>
     </template>
     <v-footer :inset="footer.inset" color="indigo" app>
@@ -186,9 +214,29 @@ export default {
         }
       }
     },
-    id_senjata: null,
-    nama_senjata: null,
-    umur_senjata: null
+    nomor_routing: null,
+    nama_routing: null,
+    work_center: null,
+    breadcumbs: [
+        {
+          text: "Home"
+        },
+        {
+          text: "List Data Lot"
+        },
+        {
+          text: "Detail Lot"
+        },
+        {
+          text: "Edit Lot"
+        }
+      ],
+    snackbar_sukses: false,
+    text_sukses: "",
+    timeout_sukses: 0,
+    snackbar_gagal: false,
+    text_gagal: "",
+    timeout_gagal: 0,
   }),
 
   mounted() {
@@ -200,12 +248,13 @@ export default {
     var uri = currentUrl.split("/");
 
     http
-      .get("/getPetiDetail/" + uri[6] + "")
+      .get("/getPetiDetailEdit/" + uri[6] + "/" + uri[7] )
       .then(
         response => (
-          (this.id_senjata = response.data[0].id),
-          (this.nama_senjata = response.data[0].name),
-          (this.umur_senjata = response.data[0].age)
+          (this.nomor_routing = response.data[0].nomor_routing),
+          (this.nama_routing = response.data[0].nama_routing),
+          (this.work_center = response.data[0].work_center),
+          (this.nomor_pd = response.data[0].nomor_pd)
         )
       );
   },
@@ -221,20 +270,24 @@ export default {
       this.checkbox = null;
       this.$validator.reset();
     },
-    updateCustomer() {
+    updateLot() {
       var data = {
-        id: this.id_senjata,
-        name: this.nama_senjata,
-        age: this.umur_senjata
+        nomor_routing: this.nomor_routing,
+        nama_routing: this.nama_routing,
+        work_center: this.work_center,
+        nomor_pd: this.nomor_pd,
       };
       console.log(data);
       http
         .put("/update", data)
         .then(response => {
-          this.customer.id = response.data.id;
-          this.customer.name = response.data.name;
-          this.customer.age = response.data.age;
-          console.log(response.data);
+          // this.customer.id = response.data.id;
+          // this.customer.name = response.data.name;
+          // this.customer.age = response.data.age;
+          // console.log(response.data);
+          this.snackbar_sukses = true;
+          this.text_sukses = "Data Berhasil di Ubah";
+          this.timeout_sukses = 3000;
         })
         .catch(e => {
           console.log(e);

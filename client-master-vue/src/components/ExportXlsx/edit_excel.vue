@@ -96,6 +96,7 @@
     </v-toolbar>
     <template>
       <v-container id="grid" fluid grid-list-sm tag="section">
+        <v-breadcrumbs :items="breadcumbs" divider=">"></v-breadcrumbs>
         <v-layout row wrap>
           <!-- <v-flex tag="h1" class="headline">Lorem Ipsum</v-flex> -->
           <v-flex d-flex xs12 order-xs5>
@@ -582,6 +583,17 @@ export default {
     snackbar_gagal: false,
     text_gagal: "",
     timeout_gagal: 0,
+    breadcumbs: [
+        {
+          text: "Home"
+        },
+        {
+          text: "Export Excel"
+        },
+        {
+          text: "Edit Excel"
+        },
+      ]
   }),
 
   mounted() {

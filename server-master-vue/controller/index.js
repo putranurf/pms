@@ -28,7 +28,7 @@ module.exports = {
     },
     getPetiDetail(req,res){
         var id = req.params.id
-        console.log('INI ID OLOHH'+id);
+        // console.log('INI ID OLOHH'+id);
         
         pool.query('SELECT * FROM tbl_peti where id_peti=$1', [id],(error, results) => {
             if (error) {
@@ -40,11 +40,29 @@ module.exports = {
             }
         })
     },
+    getPetiDetailEdit(req,res){
+        var nomor_pd = req.params.nomor_pd
+        var nomor_routing = req.params.nomor_routing
+        
+        // console.log(id);
+        
+        pool.query('SELECT * FROM tbl_peti where nomor_pd=$1 and nomor_routing=$2', [nomor_pd, nomor_routing],(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
     update(req,res){
-        var id = req.body.id
-        var name = req.body.name
-        var age = req.body.age
-        pool.query("UPDATE customers SET name=$2 , age=$3 WHERE id=$1",[id,name,age], function (error, result) {
+        var nomor_routing = req.body.nomor_routing
+        var nama_routing = req.body.nama_routing
+        var work_center = req.body.work_center
+        var nomor_pd = req.body.nomor_pd
+
+        pool.query("UPDATE tbl_peti SET nama_routing=$2, work_center=$3 WHERE nomor_pd=$4 and nomor_routing=$1",[nomor_routing,nama_routing,work_center,nomor_pd], function (error, result) {
         // done();
         if (error) {
             console.log(error);

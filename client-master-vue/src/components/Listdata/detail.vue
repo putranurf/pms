@@ -101,6 +101,7 @@
     </v-toolbar>
     <template>
       <v-container id="grid" fluid grid-list-sm tag="section">
+        <v-breadcrumbs :items="breadcumbs" divider=">"></v-breadcrumbs>
         <v-layout row wrap>
           <!-- <v-flex tag="h1" class="headline">Lorem Ipsum</v-flex> -->
           <v-flex d-flex xs12 order-xs5>
@@ -177,6 +178,17 @@
           <template v-slot:items="props">
             <td>{{ props.item.nomor_routing }}</td>
             <td>{{ props.item.nama_routing }}</td>
+            <td>{{ props.item.work_center }}</td>
+            <td>
+              <router-link
+                class="btn btn-primary"
+                v-bind:to="'/listdata/edit/'+props.item.nomor_pd+'/'+props.item.nomor_routing"
+              >
+                <v-btn color="primary" fab small dark>
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </router-link>
+            </td>
           </template>
         </v-data-table>
       </v-container>
@@ -254,11 +266,25 @@ export default {
     qty: null,
     nomor_routing: null,
     nama_routing: null,
+    work_center: null,
     headers: [
       { text: "Nomor Routing", value: "nomor_routing" },
-      { text: "Nama Routing", value: "nama_routing" }
+      { text: "Nama Routing", value: "nama_routing" },
+      { text: "Work Center", value: "work_center" },
+      { text: "Aksi", value: "aksi" },
     ],
-    list: []
+    list: [],
+    breadcumbs: [
+        {
+          text: "Home"
+        },
+        {
+          text: "List Data Lot"
+        },
+        {
+          text: "Detail Lot"
+        }
+      ]
   }),
 
   mounted() {
@@ -281,6 +307,7 @@ export default {
           (this.qty = response.data[0].qty),
           (this.nomor_routing = response.data[0].nomor_routing),
           (this.nama_routing = response.data[0].nama_routing),
+          (this.work_center = response.data[0].work_center),
           (this.list = response.data)
         )
       );

@@ -65,7 +65,7 @@ const routes = [
     }
   },
   {
-    path: "/listdata/edit/:id",
+    path: "/listdata/edit/:nomor_pd/:nomor_routing",
     name: "listdataEdit",
     component: Editdata,
     meta: {
