@@ -104,6 +104,7 @@
         <v-breadcrumbs :items="breadcumbs" divider=">"></v-breadcrumbs>
         <v-layout row wrap>
           <!-- <v-flex tag="h1" class="headline">Lorem Ipsum</v-flex> -->
+
           <v-flex d-flex xs12 order-xs5>
             <v-layout column>
               <v-flex>
@@ -174,7 +175,16 @@
             </v-layout>
           </v-flex>
         </v-layout>
+        <router-link
+          class="btn btn-primary"
+          v-bind:to="'/listdata/add'"
+        >
+          <v-btn color="primary">
+            <v-icon>add</v-icon>
+          </v-btn>
+        </router-link>
         <v-data-table :headers="headers" :items="list" :items-per-page="10" class="elevation-1">
+          
           <template v-slot:items="props">
             <td>{{ props.item.nomor_routing }}</td>
             <td>{{ props.item.nama_routing }}</td>
@@ -188,9 +198,26 @@
                   <v-icon>edit</v-icon>
                 </v-btn>
               </router-link>
+              <v-btn color="error" fab small dark v-on:click="deletePetiDetail(props.item.nomor_pd, props.item.nomor_routing)">
+                  <v-icon>delete</v-icon>
+              </v-btn>              
             </td>
           </template>
         </v-data-table>
+        <div class="text-center">
+          <v-snackbar
+            color="cyan darken-2"
+            v-model="snackbar_sukses"
+            :timeout="timeout_sukses"
+          >{{ text_sukses }}</v-snackbar>
+        </div>
+        <div class="text-center">
+          <v-snackbar
+            color="red darken-2"
+            v-model="snackbar_gagal"
+            :timeout="timeout_gagal"
+          >{{ text_gagal }}</v-snackbar>
+        </div>
       </v-container>
     </template>
     <v-footer :inset="footer.inset" color="indigo" app>
@@ -284,7 +311,13 @@ export default {
         {
           text: "Detail Lot"
         }
-      ]
+      ],
+       snackbar_sukses: false,
+    text_sukses: "",
+    timeout_sukses: 0,
+    snackbar_gagal: false,
+    text_gagal: "",
+    timeout_gagal: 0,
   }),
 
   mounted() {
@@ -323,6 +356,42 @@ export default {
       this.select = null;
       this.checkbox = null;
       this.$validator.reset();
+    },
+    deletePetiDetail(x,y){
+      let data = {
+        nomor_pd: x,
+        nomor_routing: y
+      }; 
+      http
+      .put("/deletePetiDetail", data)
+      .then(response => {
+        
+          this.snackbar_sukses = true;
+          this.text_sukses = "Data Berhasil di Ubah";
+          this.timeout_sukses = 3000;
+          let currentUrl = window.location.href;
+          let uri = currentUrl.split("/");
+          http
+            .get("/getPetiDetail/" + uri[6] + "")
+            .then(
+              response => (
+                (this.id_peti = response.data[0].id_peti),
+                (this.nomor_pd = response.data[0].nomor_pd),
+                (this.kode_mat = response.data[0].kode_mat),
+                (this.desc_mat = response.data[0].desc_mat),
+                (this.qty = response.data[0].qty),
+                (this.nomor_routing = response.data[0].nomor_routing),
+                (this.nama_routing = response.data[0].nama_routing),
+                (this.work_center = response.data[0].work_center),
+                (this.list = response.data)
+              )
+            );
+      })
+      .catch(e => {
+      console.log(e);
+      });
+
+      this.submitted = true;
     }
     //   updateCustomer() {
     //       var data = {

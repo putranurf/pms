@@ -151,24 +151,21 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="total_routing"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('total_routing')"
                         label="Total Routing"
                         data-vv-name="total_routing"
-                        box
-                        readonly
-                        
                       ></v-text-field>
                       <v-text-field
                         v-model="uom"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('uom')"
                         label="UOM"
                         data-vv-name="uom"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
@@ -184,68 +181,66 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="yield_qty"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('yield_qty')"
                         label="Yield Quantity"
                         data-vv-name="yield_qty"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
                         v-model="scrap_qty"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('scrap_qty')"
                         label="Scrap Quantity"
                         data-vv-name="scrap_qty"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
                         v-model="start_date"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('start_date')"
                         label="Start Date"
                         data-vv-name="start_date"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
                         v-model="start_time"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('start_time')"
                         label="Start Time"
                         data-vv-name="start_time"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
                         v-model="end_date"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('end_date')"
                         label="End Date"
                         data-vv-name="end_date"
-                        box
-                        readonly
                         
                       ></v-text-field>
                       <v-text-field
                         v-model="end_time"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('end_time')"
                         label="End Time"
                         data-vv-name="end_time"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
@@ -257,6 +252,7 @@
                         data-vv-name="is_send"
                         box
                         readonly
+
                       ></v-text-field>
                       <v-text-field
                         v-model="status"
@@ -271,24 +267,24 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="nomor_routing"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('nomor_routing')"
                         label="Nomor Routing"
                         data-vv-name="nomor_routing"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
                         v-model="all_time"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('all_time')"
                         label="All Time"
                         data-vv-name="all_time"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
@@ -304,7 +300,7 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="nama_routing"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('nama_routing')"
                         label="Nama Routing"
@@ -313,13 +309,13 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="rework"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('rework')"
                         label="Rework"
                         data-vv-name="rework"
-                        box
-                        readonly
+                        
+                        
                         
                       ></v-text-field>
                       <v-text-field
@@ -329,8 +325,8 @@
                         :error-messages="errors.collect('reason')"
                         label="Reason"
                         data-vv-name="reason"
-                        box
-                        readonly
+                        
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="updated_time"
@@ -344,69 +340,61 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="npp"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('npp')"
                         label="NPP"
                         data-vv-name="npp"
-                        box
-                        readonly
-                        required
+                        
+                        
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="nama"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('nama')"
                         label="Nama"
                         data-vv-name="nama"
-                        box
-                        readonly
-                        required
+                        
+                        
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="labor"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('labor')"
                         label="Labor"
                         data-vv-name="labor"
-                        box
-                        readonly
-                        required
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="final_time"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('final_time')"
                         label="Final Time"
                         data-vv-name="final_time"
-                        box
-                        readonly
-                        required
+                       
                       ></v-text-field>
                       <v-text-field
                         v-model="mesin"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('mesin')"
                         label="Mesin"
                         data-vv-name="mesin"
-                        box
-                        readonly
-                        required
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="overhead"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('overhead')"
                         label="Overhead"
                         data-vv-name="overhead"
-                        box
-                        readonly
-                        required
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="plant"
@@ -421,36 +409,30 @@
                       ></v-text-field>
                       <v-text-field
                         v-model="satuan"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('satuan')"
                         label="Satuan"
                         data-vv-name="satuan"
-                        box
-                        readonly
-                        required
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="work_center"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('work_center')"
                         label="Work Center"
                         data-vv-name="work_center"
-                        box
-                        readonly
-                        required
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="kali"
-                        v-validate="'required|max:100'"
+                        v-validate="'max:100'"
                         :counter="100"
                         :error-messages="errors.collect('kali')"
                         label="Kali"
                         data-vv-name="kali"
-                        box
-                        readonly
-                        required
+                        
                       ></v-text-field>
                       <v-text-field
                         v-model="urutan_pd"

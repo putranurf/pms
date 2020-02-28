@@ -15,6 +15,7 @@ const { getPeti,
         postDelete,
         setQty,
         editConf,
+        deletePetiDetail,
         getLaporanKeterlambatan,
         getDispatchList,
         getHasilProduksi,
@@ -40,6 +41,7 @@ router.put('/lepas/', lepas)
 router.put('/gantiPassword', gantiPassword)
 router.put('/setQty/',setQty)
 router.put('/editConf/',editConf)
+router.put('/deletePetiDetail/',deletePetiDetail)
 router.post('/postMappingRooting',postMappingRooting)
 router.post('/postLogin',postLogin)
 router.post('/postDelete',postDelete)

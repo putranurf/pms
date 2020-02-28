@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Mapping from "./components/Mapping";
 import Listdata from "./components/Listdata";
 import Editdata from "./components/Listdata/edit";
+import Adddata from "./components/Listdata/add";
 import Detaildata from "./components/Listdata/detail";
 import Lepasdata from "./components/Lepasdata";
 import Auth from "./components/Auth";
@@ -68,6 +69,14 @@ const routes = [
     path: "/listdata/edit/:nomor_pd/:nomor_routing",
     name: "listdataEdit",
     component: Editdata,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/listdata/add",
+    name: "listdataAdd",
+    component: Adddata,
     meta: {
       requiresAuth: true
     }

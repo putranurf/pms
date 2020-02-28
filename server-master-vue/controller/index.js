@@ -365,4 +365,21 @@ module.exports = {
         }
         })   
     },
+    deletePetiDetail(req,res){
+        var nomor_pd = req.body.nomor_pd
+        var nomor_routing = req.body.nomor_routing
+        
+        // console.log(nomor_pd);
+        // console.log(nomor_routing);
+        console.log('berhasil delete')
+        pool.query('DELETE FROM tbl_peti where nomor_pd=$1 and nomor_routing=$2', [nomor_pd, nomor_routing],(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
 };
