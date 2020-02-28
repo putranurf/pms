@@ -10,6 +10,7 @@ import Logout from "./components/Auth/logout";
 import Profil from "./components/Profil";
 import Keterlambatan from "./components/Laporan";
 import ExportXlsx from "./components/ExportXlsx/excel";
+import EditExcel from "./components/ExportXlsx/edit_excel";
 import ExportXlsxSpread from "./components/ExportXlsx";
 import error from "../src/components/404/404.vue";
 import Cookies from "js-cookie";
@@ -37,12 +38,10 @@ Vue.use(VueRouter);
 // // }
 // ];
 
-
-
 const routes = [
   {
     path: "/",
-    redirect: '/lockinglot'
+    redirect: "/lockinglot"
   },
   {
     path: "/lockinglot",
@@ -108,15 +107,23 @@ const routes = [
   {
     path: "/export",
     name: "exportxlsx",
-    component: ExportXlsx,    
+    component: ExportXlsx,
     meta: {
       requiresAuth: true
     }
   },
+  { 
+    path: "/export/edit/:id", 
+    name: "editexcel", 
+    component: EditExcel,
+    meta: {
+      requiresAuth: true
+    } 
+  },
   {
     path: "/export2",
     name: "exportxlsxSpread",
-    component: ExportXlsxSpread,    
+    component: ExportXlsxSpread,
     meta: {
       requiresAuth: true
     }
@@ -143,18 +150,15 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!auth) {
       next({
-        path: "/auth",
+        path: "/auth"
         // query: { redirect: to.fullPath }
       });
     } else {
-      next() 
+      next();
     }
   } else {
     next(); // make sure to always call next()!
   }
 });
 
-
-
 export default router;
-

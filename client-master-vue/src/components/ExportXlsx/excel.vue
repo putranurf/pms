@@ -72,6 +72,7 @@
             </v-list-tile>
           </router-link>
         </li>
+        <v-divider></v-divider>
         <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>
@@ -108,7 +109,7 @@
             :fields="json_fields"
             worksheet="Data"
             name="Table Confirmation.xls"
-          >          
+          >
             <v-btn class="btn btn-primary" color="primary">EXPORT TO EXCEL</v-btn>
           </download-excel>
           <v-text-field
@@ -153,6 +154,16 @@
               <td>{{ props.item.work_center }}</td>
               <td>{{ props.item.kali }}</td>
               <td>{{ props.item.urutan_pd }}</td>
+              <td>
+                <router-link
+                  class="btn btn-primary"
+                  v-bind:to="'/export/edit/'+props.item.id"
+                >
+                  <v-btn color="primary" fab small dark>
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                </router-link>
+              </td>
             </template>
 
             <template v-slot:no-results>
@@ -233,43 +244,44 @@ export default {
       { text: "Satuan", value: "satuan" },
       { text: "Work Center", value: "work_center" },
       { text: "Kali", value: "kali" },
-      { text: "Urutan PD", value: "urutan_pd" }
+      { text: "Urutan PD", value: "urutan_pd" },
+      { text: "Aksi", value: "aksi" }
     ],
     excel_data: [],
     json_fields: {
-      "Nomor PD" : "nomor_pd",
-    "Jumlah" : "qty",
-    "Kode Material" : "kode_mat",
-    "Deskripsi" : "desc_mat",
-    "Jumlah Routing" : "total_routing",
-    "UOM" : "uom",
-    "LOT" : "lot",
-    "Jumlah Yield" : "yield_qty",
-    "Jumlah Scrap" : "scrap_qty",
-    "Tanggal Mulai" : "tanggal_mulai_baru",
-    "Jam Mulai" : "start_time",
-    "Tanggal Selesai" : "tanggal_selesai_baru",
-    "Jam Selesai" : "end_time",
-    "Terkirim" : "is_send",
-    "Status" : "status",
-    "Nomor Routing" : "nomor_routing",
-    "All Time" : "all_time_baru",
-    "ID" : "id",
-    "Nama Routing" : "nama_routing",
-    "Rework" : "rework",
-    "Reason" : "reason",
-    "Jam Update" : "updated_time",
-    "NPP" : "npp",
-    "Nama" : "nama",
-    "Labor" : "labor",
-    "Final Time" : "final_time_baru",
-    "Mesin" : "mesin",
-    "Overhead" : "overhead",
-    "Plant" : "plant",
-    "Satuan" : "satuan",
-    "Work Center" : "work_center",
-    "Kali" : "kali",
-    "Urutan PD" : "urutan_pd",
+      "Nomor PD": "nomor_pd",
+      Jumlah: "qty",
+      "Kode Material": "kode_mat",
+      Deskripsi: "desc_mat",
+      "Jumlah Routing": "total_routing",
+      UOM: "uom",
+      LOT: "lot",
+      "Jumlah Yield": "yield_qty",
+      "Jumlah Scrap": "scrap_qty",
+      "Tanggal Mulai": "tanggal_mulai_baru",
+      "Jam Mulai": "start_time",
+      "Tanggal Selesai": "tanggal_selesai_baru",
+      "Jam Selesai": "end_time",
+      Terkirim: "is_send",
+      Status: "status",
+      "Nomor Routing": "nomor_routing",
+      "All Time": "all_time_baru",
+      ID: "id",
+      "Nama Routing": "nama_routing",
+      Rework: "rework",
+      Reason: "reason",
+      "Jam Update": "updated_time",
+      NPP: "npp",
+      Nama: "nama",
+      Labor: "labor",
+      "Final Time": "final_time_baru",
+      Mesin: "mesin",
+      Overhead: "overhead",
+      Plant: "plant",
+      Satuan: "satuan",
+      "Work Center": "work_center",
+      Kali: "kali",
+      "Urutan PD": "urutan_pd"
     },
 
     json_meta: [
@@ -374,22 +386,22 @@ export default {
         .get("/getExportConf")
         .then(response => {
           for (let index = 0; index < response.data.length; index++) {
-                let tanggal_mulai_baru = response.data[index].start_date;
-                let tanggal_selesai_baru = response.data[index].end_date;
-                let all_time_baru = response.data[index].all_time;
-                let final_time_baru = response.data[index].final_time;
-                response.data[index]["tanggal_mulai_baru"] = moment(
-                    String(tanggal_mulai_baru)
-                ).format("YYYY-MM-DD hh:mm");
-                response.data[index]["tanggal_selesai_baru"] = moment(
-                    String(tanggal_selesai_baru)
-                ).format("YYYY-MM-DD hh:mm");
-                response.data[index]["all_time_baru"] = moment(
-                    String(all_time_baru)
-                ).format("YYYY-MM-DD hh:mm");
-                response.data[index]["final_time_baru"] = moment(
-                    String(final_time_baru)
-                ).format("YYYY-MM-DD hh:mm");
+            let tanggal_mulai_baru = response.data[index].start_date;
+            let tanggal_selesai_baru = response.data[index].end_date;
+            let all_time_baru = response.data[index].all_time;
+            let final_time_baru = response.data[index].final_time;
+            response.data[index]["tanggal_mulai_baru"] = moment(
+              String(tanggal_mulai_baru)
+            ).format("YYYY-MM-DD hh:mm");
+            response.data[index]["tanggal_selesai_baru"] = moment(
+              String(tanggal_selesai_baru)
+            ).format("YYYY-MM-DD hh:mm");
+            response.data[index]["all_time_baru"] = moment(
+              String(all_time_baru)
+            ).format("YYYY-MM-DD hh:mm");
+            response.data[index]["final_time_baru"] = moment(
+              String(final_time_baru)
+            ).format("YYYY-MM-DD hh:mm");
           }
           this.excel_data = response.data; // JSON are parsed automatically.
         })

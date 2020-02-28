@@ -77,6 +77,7 @@
             </v-list-tile>
           </router-link>
         </li>
+        <v-divider></v-divider>
         <li>
           <router-link @click.native=" " to="/logout">
             <v-list-tile @click>

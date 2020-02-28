@@ -59,6 +59,7 @@
             </v-list-tile>
           </router-link>
         </li>
+        <v-divider></v-divider>
         <li>
           <router-link @click.native=" " to="/export">
             <v-list-tile @click>

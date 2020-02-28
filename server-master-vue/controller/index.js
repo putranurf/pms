@@ -321,4 +321,30 @@ module.exports = {
             }
         })
     },
+    getConfDetail(req,res){
+        let id = req.params.id
+        pool.query("select * from tbl_conf where id=$1 ",[id],(error, results) => {
+            if (error) {
+                console.log(error);
+                res.status(400).send(error);
+            }
+            else{
+                res.status(200).json(results.rows)
+            }
+        })
+    },
+    editConf(req,res){
+        let id = req.body.id
+        let nama_routing = req.body.nama_routing
+        pool.query("UPDATE tbl_conf SET nama_routing=$2 WHERE id=$1",[id,nama_routing], function (error, result) {
+        // done();
+        if (error) {
+            console.log(error);
+            res.status(400).send(error);
+        }
+        else{
+            res.status(200).json(result.rows)        
+        }
+        })   
+    },
 };
