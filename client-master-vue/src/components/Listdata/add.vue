@@ -107,34 +107,32 @@
                     <form>
                       <v-text-field
                         v-model="nomor_routing"
-                        v-validate="'required|max:100'"
+                        v-validate="'required|numeric|max:100'"
                         :counter="100"
                         :error-messages="errors.collect('nomor_routing')"
                         label="Nomor Routing"
                         data-vv-name="nomor_routing"       
-                        box
                         required                 
-                        readonly
                       ></v-text-field>
                       <v-text-field
                         v-model="nama_routing"
-                        v-validate="'max:100'"
+                        v-validate="'required|max:100'"
                         :counter="100"
                         :error-messages="errors.collect('nama_routing')"
                         label="Nama Routing"
                         data-vv-name="nama_routing"
-                        
+                        required
                       ></v-text-field>
                       <v-text-field
                         v-model="work_center"
-                        v-validate="'max:100'"
+                        v-validate="'required|max:100'"
                         :counter="100"
                         :error-messages="errors.collect('work_center')"
                         label="Work Center"
                         data-vv-name="work_center"
-                        
+                        required
                       ></v-text-field>
-                      <v-btn @click="submit" v-on:click="updateLot">submit</v-btn>
+                      <v-btn @click="submit" v-on:click="postAddLot">submit</v-btn>
                       <!-- <v-btn @click="clear">clear</v-btn> -->
                     </form>
                   </v-card-text>
@@ -246,17 +244,17 @@ export default {
     this.$validator.localize("en", this.dictionary);
     var currentUrl = window.location.href;
     var uri = currentUrl.split("/");
-
-    http
-      .get("/getPetiDetailEdit/" + uri[6] + "/" + uri[7] )
-      .then(
-        response => (
-          (this.nomor_routing = response.data[0].nomor_routing),
-          (this.nama_routing = response.data[0].nama_routing),
-          (this.work_center = response.data[0].work_center),
-          (this.nomor_pd = response.data[0].nomor_pd)
-        )
-      );
+    
+    // http
+    //   .get("/getPetiDetailEdit/" + uri[6] + "/" + uri[7] )
+    //   .then(
+    //     response => (
+    //       (this.nomor_routing = response.data[0].nomor_routing),
+    //       (this.nama_routing = response.data[0].nama_routing),
+    //       (this.work_center = response.data[0].work_center),
+    //       (this.nomor_pd = response.data[0].nomor_pd)
+    //     )
+    //   );
   },
 
   methods: {
@@ -264,36 +262,74 @@ export default {
       this.$validator.validateAll();
     },
     clear() {
-      this.name = "";
-      this.email = "";
-      this.select = null;
-      this.checkbox = null;
+      this.nomor_routing = "";
+      this.nama_routing = "";
+      this.work_center = "";
+      // this.checkbox = null;
       this.$validator.reset();
     },
-    updateLot() {
-      var data = {
-        nomor_routing: this.nomor_routing,
-        nama_routing: this.nama_routing,
-        work_center: this.work_center,
-        nomor_pd: this.nomor_pd,
-      };
-      console.log(data);
-      http
-        .put("/update", data)
-        .then(response => {
-          // this.customer.id = response.data.id;
-          // this.customer.name = response.data.name;
-          // this.customer.age = response.data.age;
-          // console.log(response.data);
-          this.snackbar_sukses = true;
-          this.text_sukses = "Data Berhasil di Ubah";
-          this.timeout_sukses = 3000;
-        })
-        .catch(e => {
-          console.log(e);
-        });
+    postAddLot() {
+      this.$validator.validateAll().then(result => {
+        if (result) { 
+          let currentUrl = window.location.href;
+          let uri = currentUrl.split("/");         
+          var data = {
+            nomor_routing: this.nomor_routing,
+            nama_routing: this.nama_routing,
+            work_center: this.work_center,
+            id_peti: uri[6],
+            nomor_pd: uri[7].replace("%", " ")
+          };
+          // console.log(data)
 
-      this.submitted = true;
+          // http
+          //   .get("/getPetiDetailEdit/" + uri[6] + "/" + uri[7] )
+          //   .then(
+          //     response => (
+          //       (this.nomor_routing = response.data[0].nomor_routing),
+          //       (this.nama_routing = response.data[0].nama_routing),
+          //       (this.work_center = response.data[0].work_center),
+          //       (this.nomor_pd = response.data[0].nomor_pd)
+          //     )
+          //   );
+
+
+          http
+            .post("/postAddLot", data)
+            .then(response => {
+              console.log(response)
+              // if (response.data == "sukses") {
+                // console.log(response);
+                this.snackbar_sukses = true;
+                this.text_sukses = "Data Mapping Berhasil di Input.";
+                this.timeout_sukses = 3000;
+                this.clear()
+              // } else {
+                // this.snackbar_gagal = true;
+                // this.text_gagal =
+                //   "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
+                // this.timeout_gagal = 3000;
+              // }
+            })
+            .catch(e => {
+              console.log(e);
+              this.snackbar_gagal = true;
+              this.text_gagal =
+                "Data Mapping Gagal di Input. Sudah terdapat pada sistem";
+              this.timeout_gagal = 3000;
+            });
+
+          // this.submitted = true;
+          // this.$refs.form.reset();
+          // this.$validator.reset();
+
+          // return;
+        }
+        // alert("Data Tidak Boleh Kosong");
+        // this.snackbar_gagal = true;
+        // this.text_gagal = "Data Input Masih Terdapat Kesalahan";
+        // this.timeout_gagal = 3000;
+      });
     },
     newCustomer() {
       this.submitted = false;

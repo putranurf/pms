@@ -74,7 +74,7 @@ const routes = [
     }
   },
   {
-    path: "/listdata/add",
+    path: "/listdata/add/:id_peti/:nomor_pd",
     name: "listdataAdd",
     component: Adddata,
     meta: {

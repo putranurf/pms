@@ -382,4 +382,37 @@ module.exports = {
             }
         })
     },
+
+    // getPetiDetailAdd(req,res){
+    //     var id = req.params.id
+    //     // console.log('INI ID OLOHH'+id);
+        
+    //     pool.query('SELECT * FROM tbl_peti where id_peti=$1', [id],(error, results) => {
+    //         if (error) {
+    //             console.log(error);
+    //             res.status(400).send(error);
+    //         }
+    //         else{
+    //             res.status(200).json(results.rows)
+    //         }
+    //     })
+    // },
+    postAddLot(req,res){
+        let nomor_pd = req.body.nomor_pd
+        let id_peti = req.body.id_peti
+        let nomor_routing = req.body.nomor_routing
+        let nama_routing = req.body.nama_routing
+        let work_center = req.body.work_center
+        // console.log(nomor_pd)
+        // console.log(id_peti)
+        // console.log(req.body)
+        pool.query("INSERT INTO tbl_peti SELECT tbl_peti.id_peti, tbl_peti.nomor_pd, tbl_peti.kode_mat, tbl_peti.desc_mat, tbl_peti.total_routing, tbl_peti.uom, tbl_peti.qty, $3, $4, now(), null, tbl_peti.plant, tbl_peti.kali, $5, tbl_peti.satuan, tbl_peti.status_hapus, tbl_peti.status_pasang, $6, tbl_peti.npp FROM tbl_peti WHERE id_peti=$1 AND nomor_pd=$2 limit 1 ",[id_peti,nomor_pd, nomor_routing, nama_routing,work_center,1], function (error2, results2) {        
+            if (error2) {
+                console.log(error2)
+                res.status(400).send(error2)
+            } else {
+                res.status(200).json('berhasil input')
+            }                                                                                            
+        })    
+    },
 };

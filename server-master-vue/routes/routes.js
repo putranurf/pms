@@ -13,6 +13,7 @@ const { getPeti,
         postMappingRooting,
         postLogin,
         postDelete,
+        postAddLot,
         setQty,
         editConf,
         deletePetiDetail,
@@ -45,6 +46,7 @@ router.put('/deletePetiDetail/',deletePetiDetail)
 router.post('/postMappingRooting',postMappingRooting)
 router.post('/postLogin',postLogin)
 router.post('/postDelete',postDelete)
+router.post('/postAddLot',postAddLot)
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

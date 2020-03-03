@@ -164,7 +164,7 @@
                         data-vv-name="qty"
                         box
                         readonly
-                        required
+                        required                        
                       ></v-text-field>
                       <!-- <v-btn @click="submit" v-on:click="updateCustomer" >submit</v-btn>
                       <v-btn @click="clear">clear</v-btn>-->
@@ -174,18 +174,17 @@
               </v-flex>
             </v-layout>
           </v-flex>
-        </v-layout>
+        </v-layout>        
         <router-link
           class="btn btn-primary"
-          v-bind:to="'/listdata/add'"
+          v-bind:to="'/listdata/add/'+id_peti+'/'+nomor_pd"
         >
           <v-btn color="primary">
             <v-icon>add</v-icon>
           </v-btn>
         </router-link>
-        <v-data-table :headers="headers" :items="list" :items-per-page="10" class="elevation-1">
-          
-          <template v-slot:items="props">
+        <v-data-table :headers="headers" :items="list" :items-per-page="10" class="elevation-1">          
+          <template v-slot:items="props">                        
             <td>{{ props.item.nomor_routing }}</td>
             <td>{{ props.item.nama_routing }}</td>
             <td>{{ props.item.work_center }}</td>

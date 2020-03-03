@@ -252,7 +252,7 @@
                         data-vv-name="is_send"
                         box
                         readonly
-
+                        v-show="false"
                       ></v-text-field>
                       <v-text-field
                         v-model="status"
@@ -263,7 +263,7 @@
                         data-vv-name="status"
                         box
                         readonly
-                        
+                        v-show="false"
                       ></v-text-field>
                       <v-text-field
                         v-model="nomor_routing"
@@ -283,9 +283,6 @@
                         :error-messages="errors.collect('all_time')"
                         label="All Time"
                         data-vv-name="all_time"
-                        
-                        
-                        
                       ></v-text-field>
                       <v-text-field
                         v-model="id"
@@ -296,7 +293,7 @@
                         data-vv-name="id"
                         box
                         readonly
-                        
+                        v-show="false"
                       ></v-text-field>
                       <v-text-field
                         v-model="nama_routing"
@@ -337,6 +334,7 @@
                         data-vv-name="updated_time"
                         box
                         readonly
+                        v-show="false"
                       ></v-text-field>
                       <v-text-field
                         v-model="npp"
@@ -484,6 +482,7 @@ import Vue from "vue";
 import VeeValidate from "vee-validate";
 import http from "../../http-common.js";
 import router from "../../router";
+import moment from 'moment'
 
 Vue.use(VeeValidate);
 
