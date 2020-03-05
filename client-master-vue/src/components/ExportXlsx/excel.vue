@@ -103,15 +103,23 @@
       <v-container id="grid" fluid grid-list-sm tag="section">
         <v-breadcrumbs :items="breadcumbs" divider=">"></v-breadcrumbs>
         <v-card flat>
-          <download-excel
-            class="btn btn-default"
+          
+          <div class="right">
+            <v-btn color="primary" v-on:click="fungsiTesting()" class="ma-2 white">
+                <v-icon>cloud</v-icon>
+            </v-btn>                                
+          </div>
+           <div class="text-center">
+            <download-excel
+            class="ma-2"
             :data="excel_data"
             :fields="json_fields"
             worksheet="Data"
             name="Table Confirmation.xls"
           >
-            <v-btn class="btn btn-primary" color="primary">EXPORT TO EXCEL</v-btn>
+            <v-btn class="ma-2" color="primary">EXPORT TO EXCEL</v-btn>
           </download-excel>
+          </div>
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -121,6 +129,16 @@
           ></v-text-field>
           <v-data-table :headers="headers" :items="excel_data" :search="search">
             <template v-slot:items="props">
+              <td>
+                <router-link
+                  class="btn btn-primary"
+                  v-bind:to="'/export/edit/'+props.item.id"
+                >
+                  <v-btn color="primary" fab small dark>
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                </router-link>
+              </td>
               <td>{{ props.item.nomor_pd }}</td>
               <td>{{ props.item.qty }}</td>
               <td>{{ props.item.kode_mat }}</td>
@@ -154,16 +172,7 @@
               <td>{{ props.item.work_center }}</td>
               <td>{{ props.item.kali }}</td>
               <td>{{ props.item.urutan_pd }}</td>
-              <td>
-                <router-link
-                  class="btn btn-primary"
-                  v-bind:to="'/export/edit/'+props.item.id"
-                >
-                  <v-btn color="primary" fab small dark>
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                </router-link>
-              </td>
+              
             </template>
 
             <template v-slot:no-results>
@@ -212,6 +221,7 @@ export default {
   data: () => ({
     search: "",
     headers: [
+      { text: "Aksi", value: "aksi" },
       { text: "Nomor PD", value: "nomor_pd" },
       { text: "Jumlah", value: "qty" },
       { text: "Kode Material", value: "kode_mat" },
@@ -244,8 +254,7 @@ export default {
       { text: "Satuan", value: "satuan" },
       { text: "Work Center", value: "work_center" },
       { text: "Kali", value: "kali" },
-      { text: "Urutan PD", value: "urutan_pd" },
-      { text: "Aksi", value: "aksi" }
+      { text: "Urutan PD", value: "urutan_pd" }
     ],
     excel_data: [],
     json_fields: {
@@ -327,7 +336,11 @@ export default {
       }
     ],
 
-    items: []
+    items: [],
+    title: "WARNING",
+      text: "Anda Yakin akan Mengirim Data ke SAP ?",
+      type: "warning",
+      persistent: false
   }),
 
   mounted() {
@@ -336,6 +349,32 @@ export default {
     this.retrieveConf();
   },
   methods: {
+    async fungsiTesting(){
+      let res = await this.$dialog[this.type]({
+        title: this.title,
+        text: this.text,
+        persistent: this.persistent
+      });      
+      if (res) {
+        // alert('masuk')
+        // console.log('masuk')
+        http
+        .get("/fungsiTesting")
+        .then(response => {
+          console.log(response)          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        this.$dialog.notify.info(`Your choice is ${res}`);
+      } else {
+        this.$dialog.notify.warning("Closed without select action");        
+        // alert('gagal')
+        
+        
+      }
+      
+    },
     workbookInit: function(spread) {
       this._spread = spread;
     },

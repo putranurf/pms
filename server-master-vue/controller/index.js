@@ -415,4 +415,7 @@ module.exports = {
             }                                                                                            
         })    
     },
+    fungsiTesting(req, res){
+        console.log("Berhasil masuk backend")
+    }
 };

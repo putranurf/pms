@@ -105,6 +105,8 @@
                 <v-card flat>
                   <v-card-text>
                     <form>
+                      <v-layout>
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="nomor_pd"
                         v-validate="'required|max:100'"
@@ -116,6 +118,9 @@
                         readonly
                         
                       ></v-text-field>
+                      </v-flex>
+
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="qty"
                         v-validate="'required|max:100'"
@@ -127,6 +132,9 @@
                         readonly
                         
                       ></v-text-field>
+                        </v-flex>
+
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="kode_mat"
                         v-validate="'required|max:100'"
@@ -138,6 +146,9 @@
                         readonly
                         
                       ></v-text-field>
+                         </v-flex>
+                         <v-flex xs3 sm3>
+                      
                       <v-text-field
                         v-model="desc_mat"
                         v-validate="'required|max:100'"
@@ -149,25 +160,38 @@
                         readonly
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="total_routing"
-                        v-validate="'max:100'"
+                      </v-flex>
+                      </v-layout>
+
+                      <v-layout>
+                        <v-flex xs3 sm3>
+                          <v-text-field
+                        v-model="plant"
+                        v-validate="'required|max:100'"
                         :counter="100"
-                        :error-messages="errors.collect('total_routing')"
-                        label="Total Routing"
-                        data-vv-name="total_routing"
+                        :error-messages="errors.collect('plant')"
+                        label="Plant"
+                        data-vv-name="plant"
+                        box
+                        readonly
+                        required
                       ></v-text-field>
-                      <v-text-field
-                        v-model="uom"
-                        v-validate="'max:100'"
+                      
+                       </v-flex>
+                         <v-flex xs3 sm3>
+                          <v-text-field
+                        v-model="urutan_pd"
+                        v-validate="'required|max:100'"
                         :counter="100"
-                        :error-messages="errors.collect('uom')"
-                        label="UOM"
-                        data-vv-name="uom"
-                        
-                        
-                        
+                        :error-messages="errors.collect('urutan_pd')"
+                        label="Urutan PD"
+                        data-vv-name="urutan_pd"
+                        box
+                        readonly
+                        required
                       ></v-text-field>
+                       </v-flex>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="lot"
                         v-validate="'required|max:100'"
@@ -179,6 +203,8 @@
                         readonly
                         
                       ></v-text-field>
+                       </v-flex>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="yield_qty"
                         v-validate="'max:100'"
@@ -190,6 +216,12 @@
                         
                         
                       ></v-text-field>
+                      </v-flex>
+                      </v-layout>
+
+
+                      <v-layout>
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="scrap_qty"
                         v-validate="'max:100'"
@@ -201,17 +233,9 @@
                         
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="start_date"
-                        v-validate="'max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('start_date')"
-                        label="Start Date"
-                        data-vv-name="start_date"
-                        
-                        
-                        
-                      ></v-text-field>
+                        </v-flex>
+                         
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="start_time"
                         v-validate="'max:100'"
@@ -223,15 +247,10 @@
                         
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="end_date"
-                        v-validate="'max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('end_date')"
-                        label="End Date"
-                        data-vv-name="end_date"
-                        
-                      ></v-text-field>
+                        </v-flex>
+                         
+                      
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="end_time"
                         v-validate="'max:100'"
@@ -243,28 +262,9 @@
                         
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="is_send"
-                        v-validate="'max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('is_send')"
-                        label="Is Send"
-                        data-vv-name="is_send"
-                        box
-                        readonly
-                        v-show="false"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="status"
-                        v-validate="'required|max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('status')"
-                        label="Status"
-                        data-vv-name="status"
-                        box
-                        readonly
-                        v-show="false"
-                      ></v-text-field>
+                      </v-flex>
+                        
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="nomor_routing"
                         v-validate="'max:100'"
@@ -276,25 +276,13 @@
                         
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="all_time"
-                        v-validate="'max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('all_time')"
-                        label="All Time"
-                        data-vv-name="all_time"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="id"
-                        v-validate="'required|max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('id')"
-                        label="ID"
-                        data-vv-name="id"
-                        box
-                        readonly
-                        v-show="false"
-                      ></v-text-field>
+
+                          </v-flex>
+                        
+                         </v-layout>
+
+                       <v-layout>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="nama_routing"
                         v-validate="'max:100'"
@@ -304,6 +292,10 @@
                         data-vv-name="nama_routing"                        
                         
                       ></v-text-field>
+                       </v-flex>
+
+                     
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="rework"
                         v-validate="'max:100'"
@@ -315,6 +307,8 @@
                         
                         
                       ></v-text-field>
+                       </v-flex>
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="reason"
                         v-validate="'max:100'"
@@ -325,17 +319,10 @@
                         
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="updated_time"
-                        v-validate="'max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('updated_time')"
-                        label="Updated Time"
-                        data-vv-name="updated_time"
-                        box
-                        readonly
-                        v-show="false"
-                      ></v-text-field>
+
+                       </v-flex>
+                         
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="npp"
                         v-validate="'max:100'"
@@ -347,6 +334,11 @@
                         
                         
                       ></v-text-field>
+                       </v-flex>
+                        </v-layout>
+
+                      <v-layout>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="nama"
                         v-validate="'max:100'"
@@ -358,6 +350,9 @@
                         
                         
                       ></v-text-field>
+                       </v-flex>
+                     
+                        <v-flex xs3 sm3>
                       <v-text-field
                         v-model="labor"
                         v-validate="'max:100'"
@@ -367,15 +362,9 @@
                         data-vv-name="labor"
                         
                       ></v-text-field>
-                      <v-text-field
-                        v-model="final_time"
-                        v-validate="'max:100'"
-                        :counter="100"
-                        :error-messages="errors.collect('final_time')"
-                        label="Final Time"
-                        data-vv-name="final_time"
-                       
-                      ></v-text-field>
+                       </v-flex>
+                         
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="mesin"
                         v-validate="'max:100'"
@@ -385,6 +374,8 @@
                         data-vv-name="mesin"
                         
                       ></v-text-field>
+                       </v-flex>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="overhead"
                         v-validate="'max:100'"
@@ -394,17 +385,22 @@
                         data-vv-name="overhead"
                         
                       ></v-text-field>
+                       </v-flex>
+                      </v-layout>
+
+                      
+<v-layout>
+                        <v-flex xs3 sm3>
                       <v-text-field
-                        v-model="plant"
-                        v-validate="'required|max:100'"
+                        v-model="total_routing"
+                        v-validate="'max:100'"
                         :counter="100"
-                        :error-messages="errors.collect('plant')"
-                        label="Plant"
-                        data-vv-name="plant"
-                        box
-                        readonly
-                        required
+                        :error-messages="errors.collect('total_routing')"
+                        label="Total Routing"
+                        data-vv-name="total_routing"
                       ></v-text-field>
+                       </v-flex>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="satuan"
                         v-validate="'max:100'"
@@ -414,6 +410,8 @@
                         data-vv-name="satuan"
                         
                       ></v-text-field>
+                       </v-flex>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="work_center"
                         v-validate="'max:100'"
@@ -423,6 +421,8 @@
                         data-vv-name="work_center"
                         
                       ></v-text-field>
+                       </v-flex>
+                         <v-flex xs3 sm3>
                       <v-text-field
                         v-model="kali"
                         v-validate="'max:100'"
@@ -432,18 +432,129 @@
                         data-vv-name="kali"
                         
                       ></v-text-field>
+
+                       </v-flex>
+                      </v-layout>
+                      
+
+<v-layout>
+                        <v-flex xs3 sm3>
+
                       <v-text-field
-                        v-model="urutan_pd"
-                        v-validate="'required|max:100'"
+                        v-model="uom"
+                        v-validate="'max:100'"
                         :counter="100"
-                        :error-messages="errors.collect('urutan_pd')"
-                        label="Urutan PD"
-                        data-vv-name="urutan_pd"
+                        :error-messages="errors.collect('uom')"
+                        label="UOM"
+                        data-vv-name="uom"
+                        
+                        
+                        
+                      ></v-text-field>                      
+
+                       </v-flex>
+                      </v-layout>
+
+                       <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="is_send"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('is_send')"
+                        label="Is Send"
+                        data-vv-name="is_send"
                         box
                         readonly
-                        required
+                        v-show="false"
+                      ></v-text-field>
+                      </v-flex>
+                         <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="status"
+                        v-validate="'required|max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('status')"
+                        label="Status"
+                        data-vv-name="status"
+                        box
+                        readonly
+                        v-show="false"
+                      ></v-text-field>
+                      </v-flex>
+                      <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="id"
+                        v-validate="'required|max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('id')"
+                        label="ID"
+                        data-vv-name="id"
+                        box
+                        readonly
+                        v-show="false"
+                      ></v-text-field>
+                       </v-flex>
+                       <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="updated_time"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('updated_time')"
+                        label="Updated Time"
+                        data-vv-name="updated_time"
+                        box
+                        readonly
+                        v-show="false"
                       ></v-text-field>
 
+                       </v-flex>
+                       <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="start_date"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('start_date')"
+                        label="Start Date"
+                        data-vv-name="start_date"
+                        v-show="false"
+                        
+                        
+                      ></v-text-field>
+                        </v-flex>
+                        <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="end_date"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('end_date')"
+                        label="End Date"
+                        data-vv-name="end_date"
+                        v-show="false"
+                      ></v-text-field>
+
+                          </v-flex>
+                          <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="all_time"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('all_time')"
+                        label="All Time"
+                        data-vv-name="all_time"
+                        v-show="false"
+                      ></v-text-field>
+                       </v-flex>
+                       <v-flex xs3 sm3>
+                      <v-text-field
+                        v-model="final_time"
+                        v-validate="'max:100'"
+                        :counter="100"
+                        :error-messages="errors.collect('final_time')"
+                        label="Final Time"
+                        data-vv-name="final_time"
+                       v-show="false"
+                      ></v-text-field>
+                       </v-flex>
                       <v-btn @click="submit" v-on:click="editConf">submit</v-btn>
                       <!-- <v-btn @click="clear">clear</v-btn> -->
                     </form>
@@ -453,6 +564,7 @@
             </v-layout>
           </v-flex>
         </v-layout>
+
         <div class="text-center">
           <v-snackbar
             color="cyan darken-2"
@@ -671,10 +783,10 @@ export default {
         lot: this.lot,
         yield_qty: this.yield_qty,
         scrap_qty: this.scrap_qty,
-        start_date: this.start_date,
-        start_time: this.start_time,
-        end_date: this.end_date,
-        end_time: this.end_time,
+        // start_date: this.start_date,
+        // start_time: this.start_time,
+        // end_date: this.end_date,
+        // end_time: this.end_time,
         is_send: this.is_send,
         status: this.status,
         nomor_routing: this.nomor_routing,
